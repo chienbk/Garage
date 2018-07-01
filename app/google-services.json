@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "605147686290",
+    "firebase_url": "https://garage-85a59.firebaseio.com",
+    "project_id": "garage-85a59",
+    "storage_bucket": "garage-85a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605147686290:android:6063c121915abfdd",
+        "android_client_info": {
+          "package_name": "thebrightcompany.com.garage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605147686290-plgc96m7b52pbe37sine05md987769fd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thebrightcompany.com.garage",
+            "certificate_hash": "00ccf97ac59c5efd88ea705e3fb42e048a7bfe35"
+          }
+        },
+        {
+          "client_id": "605147686290-pbmluk3h3t22lkhn311m1edeokgp92be.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu7PF7B7bYbsmVybZ86HJvfxOIkZ6AnMI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605147686290-pbmluk3h3t22lkhn311m1edeokgp92be.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
