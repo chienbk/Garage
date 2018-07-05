@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import thebrightcompany.com.garage.R;
+import thebrightcompany.com.garage.view.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -37,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Start your app main activity
                 //Intent i = new Intent(SplashActivity.this, LoginScreenActivity.class);
                 //startActivity(i);
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 // close this activity
                 finish();

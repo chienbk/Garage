@@ -16,4 +16,12 @@ public class Constant {
     public static final String URL_PAYMENT = "v1/gara/update-payment/{idOfOrder}";
     public static final String URL_ORDER_DETAIL = "v1/gara/order-detail/{idOfOrder}";
     public static final String URL_PROFILE = "v1/gara/profile/{idOfUser}";
+
+    /**
+     * Defind key
+     */
+
+    public static final String TOKEN = "TOKEN_APP";
+    public static final String REF_EMAIL = "EMAIL_LOGIN";
+    public static final String REF_PASSWORD = "PASS_LOGIN";
 }
