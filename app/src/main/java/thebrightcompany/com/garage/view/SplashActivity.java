@@ -37,9 +37,10 @@ public class SplashActivity extends AppCompatActivity {
                 // Start your app main activity
                 //Intent i = new Intent(SplashActivity.this, LoginScreenActivity.class);
                 //startActivity(i);
-
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
                 // close this activity
-                //finish();
+                finish();
             }
         }, SPLASH_TIME_OUT);
     }

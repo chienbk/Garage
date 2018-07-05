@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Khach hang" />
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Garage" />
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Thong bao" />
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Cai dat" />

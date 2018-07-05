@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addFragment(new CustomerFragment());
+                updateTabbar(0);
 
             }
         });
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addFragment(new GarageFragment());
+                updateTabbar(1);
 
             }
         });
@@ -52,6 +54,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addFragment(new NoteFragment());
+                updateTabbar(2);
 
             }
         });
@@ -61,13 +64,37 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addFragment(new SettingFragment());
+                updateTabbar(3);
 
             }
         });
 
+        addFragment(new CustomerFragment());
+        updateTabbar(0);
+
 
        }
 
+       public void updateTabbar(int tapSelect){
+           lnrCustomer.setAlpha(0.5f);
+           lnrGarage.setAlpha(0.5f);
+           lnrNote.setAlpha(0.5f);
+           lnrSetting.setAlpha(0.5f);
+           switch (tapSelect){
+               case 0:
+                   lnrCustomer.setAlpha(1f);
+                   break;
+               case 1:
+                   lnrGarage.setAlpha(1f);
+                   break;
+               case 2:
+                   lnrNote.setAlpha(1f);
+                   break;
+               default:
+                   lnrSetting.setAlpha(1f);
+                   break;
+           }
+       }
 
 
     public void addFragment(Fragment fragment) {
