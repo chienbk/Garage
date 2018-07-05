@@ -2,6 +2,9 @@ package thebrightcompany.com.garage.utils;
 
 public class Constant {
 
+    /**
+     * Link api
+     */
     public static final String ROOT_URL = "";
     public static final String URL_LOGIN = "v1/gara/login";
     public static final String URL__CUSTOMER_ON_MAP = "v1/gara/customer-on-map/{idOfGara}";
