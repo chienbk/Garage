@@ -1,7 +1,6 @@
 package thebrightcompany.com.garage.utils;
 
 public class Constant {
-
     /**
      * Link api
      */

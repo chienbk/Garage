@@ -19,6 +19,17 @@
         <item name="popupMenuStyle">@style/MyPopupMenu</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppThemeNew" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="popupMenuStyle">@style/MyPopupMenu</item>
+    </style>
+
     <style name="Theme.Dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -35,5 +46,9 @@
         <item name="android:dropDownHorizontalOffset">-4dp</item>
         <item name="android:dropDownVerticalOffset">4dp</item>
     </style>
+
+    <style name="AppThemeNew.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeNew.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
