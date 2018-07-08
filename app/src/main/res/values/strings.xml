@@ -8,4 +8,12 @@
     <string name="lb_for_got_password">Quên mật khẩu</string>
     <string name="action_sign_in">ĐĂNG NHẬP</string>
     <string name="str_msg_network_fail">Vui lòng kiểm tra kết nối mạng</string>
+
+    //setting fragment
+    <string name="str_setting_title">Thông tin cá nhân</string>
+    <string name="str_logout">Đăng xuất</string>
+    <string name="str_local">Địa chỉ:</string>
+    <string name="str_hotline">Hotline:</string>
+    <string name="str_date_create">Năm thành lập:</string>
+    <string name="str_confirm_logout">Bạn thực sự muốn đăng xuất?</string>
 </resources>

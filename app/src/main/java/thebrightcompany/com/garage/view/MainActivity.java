@@ -63,6 +63,8 @@ public class MainActivity extends Activity {
         lnrSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingFragment fragment = new SettingFragment();
+//                fragment.viewParent = get
                 addFragment(new SettingFragment());
                 updateTabbar(3);
 

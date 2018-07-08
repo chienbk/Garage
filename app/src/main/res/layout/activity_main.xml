@@ -12,6 +12,37 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/color_tabbar">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt_header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layoutchange"
@@ -28,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:background="@color/color_tabbar"
             android:gravity="bottom|fill"
             android:orientation="horizontal">
 
@@ -55,7 +87,7 @@
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Khach hang" />
+                    tools:text="Dơn Hang" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,7 +110,7 @@
                     android:id="@+id/garage_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="Ban do"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -104,7 +136,7 @@
                     android:id="@+id/note_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="Thong Bao"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -135,7 +167,7 @@
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Cai dat" />
+                    tools:text="profile" />
             </LinearLayout>
 
         </LinearLayout>
