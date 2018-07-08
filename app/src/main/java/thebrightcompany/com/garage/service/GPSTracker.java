@@ -1,4 +1,4 @@
-package thebrightcompany.com.kdoctor.service;
+package thebrightcompany.com.garage.service;
 
 import android.Manifest;
 import android.app.Service;
@@ -20,9 +20,10 @@ import com.google.android.gms.location.LocationServices;
 
 import org.greenrobot.eventbus.EventBus;
 
-import thebrightcompany.com.kdoctor.model.garage.LatLongMessage;
-import thebrightcompany.com.kdoctor.utils.Contains;
-import thebrightcompany.com.kdoctor.utils.SharedPreferencesUtils;
+import thebrightcompany.com.garage.model.LatLongMessage;
+import thebrightcompany.com.garage.utils.Constant;
+import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
+
 
 /**
  * Created by ChienNv9 on 3/15/2018.
@@ -98,15 +99,15 @@ public class GPSTracker extends Service implements GoogleApiClient.ConnectionCal
     @Override
     public void onLocationChanged(Location location) {
 
-        Intent intent = new Intent(Contains.GPS_FILTER);
+        Intent intent = new Intent(Constant.GPS_FILTER);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         lat = location.getLatitude();
         lng = location.getLongitude();
         setLat(location.getLatitude());
         setLng(location.getLongitude());
         if (sharedPreferencesUtils != null){
-            sharedPreferencesUtils.writeStringPreference(Contains.PREF_LAT, lat +"");
-            sharedPreferencesUtils.writeStringPreference(Contains.PREF_LNG, lng + "");
+            sharedPreferencesUtils.writeStringPreference(Constant.PREF_LAT, lat +"");
+            sharedPreferencesUtils.writeStringPreference(Constant.PREF_LNG, lng + "");
         }
         EventBus.getDefault().post(new LatLongMessage(lat, lng));
 
