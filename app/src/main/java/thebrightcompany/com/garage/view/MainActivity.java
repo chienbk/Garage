@@ -1,11 +1,12 @@
 package thebrightcompany.com.garage.view;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,7 +22,7 @@ import thebrightcompany.com.garage.fragment.GarageFragment;
 import thebrightcompany.com.garage.fragment.NoteFragment;
 import thebrightcompany.com.garage.fragment.SettingFragment;
 
-public class MainActivity extends Activity implements BaseView{
+public class MainActivity extends AppCompatActivity implements BaseView{
     public LinearLayout lnrCustomer;
     public LinearLayout lnrGarage;
     public LinearLayout lnrNote;
@@ -108,12 +109,17 @@ public class MainActivity extends Activity implements BaseView{
 
 
     public void addFragment(Fragment fragment) {
+        if (fragment != null) {
+            hideProgress();
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layoutchange, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                    android.R.anim.fade_out);
+            fragmentTransaction.replace(R.id.layoutchange, fragment);
+            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+            fragmentTransaction.commitAllowingStateLoss();
+        }
     }
 
     @Override
