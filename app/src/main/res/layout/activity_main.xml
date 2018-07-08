@@ -6,19 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/layout_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppThemeNew.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_drawable_menu"
+            app:popupTheme="@style/AppThemeNew.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:layout_below="@+id/layout_appBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +60,7 @@
 
             </LinearLayout>
         </LinearLayout>
+-->
 
         <LinearLayout
             android:id="@+id/layoutchange"
@@ -117,7 +128,7 @@
                     android:id="@+id/garage_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ban do"
+                    android:text="Garage"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -180,5 +191,11 @@
         </LinearLayout>
 
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

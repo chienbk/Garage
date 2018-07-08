@@ -1,6 +1,7 @@
 package thebrightcompany.com.garage.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import thebrightcompany.com.garage.R;
+import thebrightcompany.com.garage.view.MainActivity;
 import thebrightcompany.com.garage.view.login.LoginActivity;
 
 public class SettingFragment extends Fragment {
@@ -22,6 +24,8 @@ public class SettingFragment extends Fragment {
     public TextView txtLocal;
     public TextView txtPhone1, txtPhone2;
     public TextView txtDateCreated;
+
+    private MainActivity homeActivity;
 
 
 //    public SettingFragment(View viewParent){
@@ -34,11 +38,18 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.homeActivity = (MainActivity) context;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView title = getActivity().findViewById(R.id.txt_header_title);
-        title.setText(getResources().getText(R.string.str_setting_title));
+
+        homeActivity.setTitle(R.string.str_setting_title);
 
         avartar = (ImageView)getView().findViewById(R.id.img_avartar_setting);
         txtGarageTitle = (TextView)getView().findViewById(R.id.txt_garage_name);

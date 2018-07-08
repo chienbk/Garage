@@ -1,12 +1,12 @@
 package thebrightcompany.com.garage.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     public LinearLayout lnrSetting;
     @BindView(R.id.progress)
     ProgressBar progressBar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 
     @Override
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements BaseView{
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         lnrCustomer = (LinearLayout) findViewById(R.id.customer_lnr);
         lnrCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,5 +174,9 @@ public class MainActivity extends AppCompatActivity implements BaseView{
 //        return bitmap;
 //    }
 
+
+    public void setTittle(String tittle){
+        setTitle(tittle);
+    }
 
 }
