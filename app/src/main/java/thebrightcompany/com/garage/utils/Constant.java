@@ -4,7 +4,7 @@ public class Constant {
     /**
      * Link api
      */
-    public static final String ROOT_URL = "";
+    public static final String ROOT_URL = "http://18.191.213.77/";
     public static final String URL_LOGIN = "v1/gara/login";
     public static final String URL__CUSTOMER_ON_MAP = "v1/gara/customer-on-map/{idOfGara}";
     public static final String URL_UPDATE_STATE = "v1/gara/update-state";
