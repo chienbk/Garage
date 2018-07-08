@@ -1,11 +1,21 @@
 package thebrightcompany.com.garage.view.login;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,17 +23,26 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import thebrightcompany.com.garage.R;
+import thebrightcompany.com.garage.fcm.app.Config;
+import thebrightcompany.com.garage.fcm.utils.NotificationUtils;
 import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
+import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView{
 
     public static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_LOC = 22;
 
     @BindView(R.id.progress)
     ProgressBar progress;
@@ -32,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @BindView(R.id.password)
     EditText txt_password;
 
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String email, password;
 
@@ -40,7 +60,55 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        initGoogleFirebase();
         initView();
+
+        sharedPreferencesUtils = new SharedPreferencesUtils(this);
+        String deviceToken = sharedPreferencesUtils.readStringPreference(Constant.PREF_DEVICE_TOKEN, "");
+        if (!TextUtils.isEmpty(deviceToken)){
+            Utils.APP_TOKEN = deviceToken;
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    /**
+     * Init google firebase
+     */
+    private void initGoogleFirebase() {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                    displayFirebaseRegId();
+
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+                    String message = intent.getStringExtra("message");
+                    Log.d(TAG, "message: " + message);
+                }
+            }
+        };
+        displayFirebaseRegId();
+    }
+
+    /**
+     * Display firebase register
+     */
+    private void displayFirebaseRegId() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
+        Log.e(TAG, "Firebase reg id: " + regId);
+
+        if (!TextUtils.isEmpty(regId)){
+            Utils.FCM_TOKEN = regId;
+            Log.d("Firebase Reg Id: ", " - " + regId);
+        } else
+            Log.d(TAG, "Firebase Reg Id is not received yet!");
     }
 
     /**
@@ -48,11 +116,61 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
      */
     private void initView() {
         sharedPreferencesUtils = new SharedPreferencesUtils(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            accessLocationPermission();
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void accessLocationPermission() {
+        int accessCoarseLocation = checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        int accessFineLocation   = checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int accessWriteToExternal = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int accessCall = checkSelfPermission(Manifest.permission.CALL_PHONE);
+        int accessCamera = checkSelfPermission(Manifest.permission.CAMERA);
+
+        List<String> listRequestPermission = new ArrayList<String>();
+
+        if (accessCoarseLocation != PackageManager.PERMISSION_GRANTED) {
+            listRequestPermission.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if (accessFineLocation != PackageManager.PERMISSION_GRANTED) {
+            listRequestPermission.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (accessWriteToExternal != PackageManager.PERMISSION_GRANTED) {
+            listRequestPermission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (accessCall != PackageManager.PERMISSION_GRANTED) {
+            listRequestPermission.add(Manifest.permission.CALL_PHONE);
+        }
+
+        if (accessCamera != PackageManager.PERMISSION_GRANTED) {
+            listRequestPermission.add(android.Manifest.permission.CAMERA);
+        }
+
+        if (!listRequestPermission.isEmpty()) {
+            String[] strRequestPermission = listRequestPermission.toArray(new String[listRequestPermission.size()]);
+            requestPermissions(strRequestPermission, REQUEST_CODE_LOC);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getApplicationContext());
         if (sharedPreferencesUtils != null){
             email = sharedPreferencesUtils.readStringPreference(Constant.REF_EMAIL, "");
             password = sharedPreferencesUtils.readStringPreference(Constant.REF_PASSWORD, "");
@@ -60,6 +178,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
             txt_email.setText(email);
             txt_password.setText(password);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
 
     @Override
@@ -169,4 +293,26 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         }
         return super.dispatchTouchEvent(event);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOC:
+                if (grantResults.length > 0) {
+                    for (int gr : grantResults) {
+                        // Check if request is granted or not
+                        if (gr != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                    }
+
+                    //TODO - Add your code here to start Discovery
+
+                }
+                break;
+            default:
+                return;
+        }
+    }
+
 }

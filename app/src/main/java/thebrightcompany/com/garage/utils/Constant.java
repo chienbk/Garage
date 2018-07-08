@@ -24,4 +24,9 @@ public class Constant {
     public static final String TOKEN = "TOKEN_APP";
     public static final String REF_EMAIL = "EMAIL_LOGIN";
     public static final String REF_PASSWORD = "PASS_LOGIN";
+
+    public static String GPS_FILTER = "android.intent.action.BOOT_COMPLETED";
+    public static final String PREF_LAT = "PREF_LAT";
+    public static final String PREF_LNG = "PREF_LNG";
+    public static final String PREF_DEVICE_TOKEN = "PREF_DEVICE_TOKEN";
 }

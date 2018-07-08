@@ -4,23 +4,30 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.fragment.CustomerFragment;
 import thebrightcompany.com.garage.fragment.GarageFragment;
 import thebrightcompany.com.garage.fragment.NoteFragment;
 import thebrightcompany.com.garage.fragment.SettingFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements BaseView{
     public LinearLayout lnrCustomer;
     public LinearLayout lnrGarage;
     public LinearLayout lnrNote;
     public LinearLayout lnrSetting;
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
 
     @Override
@@ -29,6 +36,7 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         lnrCustomer = (LinearLayout) findViewById(R.id.customer_lnr);
         lnrCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +114,26 @@ public class MainActivity extends Activity {
         fragmentTransaction.replace(R.id.layoutchange, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 
