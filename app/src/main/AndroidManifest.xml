@@ -34,6 +34,20 @@
             android:name=".view.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppThemeNew"></activity>
+
+
+        <!-- Firebase Notifications -->
+        <service android:name=".fcm.service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".fcm.service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- ./Firebase Notifications -->
     </application>
 
 </manifest>
