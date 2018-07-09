@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     public void onLoginSuccess(String token, Garage garage) {
         //Process return main
         hideProgress();
-        if (sharedPreferencesUtils != null){
+        if (sharedPreferencesUtils != null && garage != null){
             sharedPreferencesUtils.writeStringPreference(Constant.REF_EMAIL, email);
             sharedPreferencesUtils.writeStringPreference(Constant.REF_PASSWORD, password);
             sharedPreferencesUtils.writeStringPreference(Constant.TOKEN, token);

@@ -32,7 +32,7 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    <style name="Theme.Dialog" parent="android:style/Theme.Dialog">
+    <!--<style name="Theme.Dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -42,7 +42,7 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:background">@android:color/transparent</item>
-    </style>
+    </style>-->
 
     <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
         <item name="android:dropDownHorizontalOffset">-4dp</item>

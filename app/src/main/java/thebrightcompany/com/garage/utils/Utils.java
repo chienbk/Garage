@@ -11,20 +11,6 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Utils {
-
-    public static final String ROOT_URL = "http://kdoctor.puma-soft.com/api/";
-    public static final String URL_FORGOT_PASSWORD = ROOT_URL + "v1/forgotpass";
-    public static final String URL_LOGIN = ROOT_URL + "v1/login";
-    public static final String URL_REGISTER = ROOT_URL + "v1/register";
-    public static final String URL_TROUBLE_CODE = ROOT_URL + "v1/trouble_code_multi";
-    public static final String URL_GET_LIST_GARAGE = ROOT_URL + "v1/list_gara_on_map";
-    public static final String URL_SEARCH_GARAGE_ON_MAP = ROOT_URL + "v1/garages/search";
-    public static final String URL_GET_TEN_GARAGE = ROOT_URL + "v1/garages";
-    public static final String URL_SUPPORT = ROOT_URL + "v1/support";
-    public static final String URL_RATE_GARAGE = ROOT_URL + "v1/rate_gara";
-    public static final String URL_GARAGE_COMMENT = ROOT_URL + "v1/garage/%s/comments";
-    public static final String URL_GARAGE_DETAIL = ROOT_URL + "v1/garage/%s";
-
     public static final int LOGIN_NORMAL = 0;
     public static final int LOGIN_FACEBOOK = 1;
     public static final int LOGIN_GOOGLE = 2;
