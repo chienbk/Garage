@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import thebrightcompany.com.garage.R;
+import thebrightcompany.com.garage.view.MainActivity;
 
 public class NoteFragment extends Fragment {
 
@@ -19,6 +20,7 @@ public class NoteFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((MainActivity)getContext()).setTittle(getResources().getString(R.string.str_note_title));
     }
 
 
