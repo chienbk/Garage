@@ -9,10 +9,8 @@ public class LoginResponse implements Serializable{
     private int status_code;
     @SerializedName("message")
     private String message;
-    @SerializedName("token")
-    private String token;
-    @SerializedName("user")
-    private Garage garage;
+    @SerializedName("data")
+    private Login login;
 
     public int getStatus_code() {
         return status_code;
@@ -30,19 +28,11 @@ public class LoginResponse implements Serializable{
         this.message = message;
     }
 
-    public String getToken() {
-        return token;
+    public Login getLogin() {
+        return login;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Garage getGarage() {
-        return garage;
-    }
-
-    public void setGarage(Garage garage) {
-        this.garage = garage;
+    public void setLogin(Login login) {
+        this.login = login;
     }
 }

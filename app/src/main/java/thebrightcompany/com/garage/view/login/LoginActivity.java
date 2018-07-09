@@ -291,7 +291,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
             super.onResponse(response);
             int status_code = response.getStatus_code();
             if (status_code == 0){
-                onLoginSuccess(response.getToken(), response.getGarage());
+                onLoginSuccess(response.getLogin().getToken(), response.getLogin().getGarage());
                 showMessage(response.getMessage());
             }else {
                 onLoginError(response.getMessage());
