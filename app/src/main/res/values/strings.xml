@@ -21,4 +21,13 @@
     <string name="dialog_notice">Chú ý</string>
     <string name="open_location_settings">Cài đặt</string>
     <string name="close_location_settings">Thoát</string>
+
+
+    // notice
+    <string name="str_customer_type_new">Khách hàng mới</string>
+    <string name="string_don_hang">Đơn hàng: </string>
+    <string name="string_car_type">Loại Xe: </string>
+    <string name="string_car_number">Biển số:</string>
+    <string name="string_car_error">LỖI CỦA XE</string>
+>>>>>>> 3a6d6c289a7d97a632af20a6bc2c22ee525f081f
 </resources>
