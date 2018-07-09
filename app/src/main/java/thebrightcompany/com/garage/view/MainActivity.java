@@ -1,12 +1,20 @@
 package thebrightcompany.com.garage.view;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,8 +29,15 @@ import thebrightcompany.com.garage.fragment.CustomerFragment;
 import thebrightcompany.com.garage.fragment.GarageFragment;
 import thebrightcompany.com.garage.fragment.NoteFragment;
 import thebrightcompany.com.garage.fragment.SettingFragment;
+import thebrightcompany.com.garage.service.GPSTracker;
+import thebrightcompany.com.garage.utils.AlertDialogUtils;
+import thebrightcompany.com.garage.utils.Constant;
+import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity implements BaseView{
+
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     public LinearLayout lnrCustomer;
     public LinearLayout lnrGarage;
     public LinearLayout lnrNote;
@@ -31,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     ProgressBar progressBar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    private Dialog dlGPS;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements BaseView{
 
         addFragment(new CustomerFragment());
         updateTabbar(0);
-
+        startService(new Intent(this, GPSTracker.class));
+        sharedPreferencesUtils = new SharedPreferencesUtils(this);
 
        }
 
@@ -177,6 +194,95 @@ public class MainActivity extends AppCompatActivity implements BaseView{
 
     public void setTittle(String tittle){
         setTitle(tittle);
+    }
+
+    public boolean checkGPS() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public void showDialogAskEnableGPS(){
+        if (!checkGPS() && (dlGPS == null || !dlGPS.isShowing())) {
+            dlGPS = AlertDialogUtils.ShowDialog(this, getString(R.string.dialog_notice),
+                    getString(R.string.gps_network_not_enabled), getString(R.string.open_location_settings), true,
+                    getString(R.string.close_location_settings), new AlertDialogUtils.IOnDialogClickListener() {
+
+                        @Override
+                        public void onClickOk() {
+                            // TODO Auto-generated method stub
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+
+                        @Override
+                        public void onClickCancel() {
+                            // TODO Auto-generated method stub
+                            dlGPS.cancel();
+                        }
+                    });
+        }
+    }
+
+    /**
+     * The method
+     */
+    private BroadcastReceiver broadcastReceiverLatLon = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            updateGPSDone();
+        }
+    };
+
+    protected void updateGPSDone() {
+        // TODO Auto-generated method stub
+        Log.d(TAG, "updateGPSDone");
+        if (dlGPS != null) {
+
+            dlGPS.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverLatLon,
+                new IntentFilter(Constant.GPS_FILTER));
+
+        startService(new Intent(this, GPSTracker.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverLatLon);
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverLatLon);
+        super.onPause();
+    }
+
+    /**
+     * The method use to update token device
+     *
+     * @param token is token of device
+     */
+    public void updateToken(String token){
+        //todo something
+        if (sharedPreferencesUtils != null){
+            sharedPreferencesUtils.writeStringPreference(Constant.PREF_DEVICE_TOKEN, token);
+        }else {
+            sharedPreferencesUtils = new SharedPreferencesUtils(this);
+            sharedPreferencesUtils.writeStringPreference(Constant.PREF_DEVICE_TOKEN, token);
+        }
     }
 
 }

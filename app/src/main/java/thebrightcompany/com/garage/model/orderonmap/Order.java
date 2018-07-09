@@ -27,6 +27,10 @@ public class Order implements Serializable{
     private int state;
     @SerializedName("time")
     private String time;
+    @SerializedName("end_time")
+    private String end_time;
+    @SerializedName("cost")
+    private String cost;
     @SerializedName("lat")
     private double lat;
     @SerializedName("lng")
@@ -34,7 +38,7 @@ public class Order implements Serializable{
     @SerializedName("email")
     private double email;
     @SerializedName("trouble_code")
-    private List<String> trouble_code;
+    private List<TroubleCode> trouble_code;
 
     public int getOrder_id() {
         return order_id;
@@ -108,6 +112,22 @@ public class Order implements Serializable{
         this.time = time;
     }
 
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+
     public double getLat() {
         return lat;
     }
@@ -132,11 +152,11 @@ public class Order implements Serializable{
         this.email = email;
     }
 
-    public List<String> getTrouble_code() {
+    public List<TroubleCode> getTrouble_code() {
         return trouble_code;
     }
 
-    public void setTrouble_code(List<String> trouble_code) {
+    public void setTrouble_code(List<TroubleCode> trouble_code) {
         this.trouble_code = trouble_code;
     }
 }

@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -32,8 +33,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import thebrightcompany.com.garage.R;
+import thebrightcompany.com.garage.api.OnResponseListener;
+import thebrightcompany.com.garage.api.login.LoginCallAPI;
 import thebrightcompany.com.garage.fcm.app.Config;
 import thebrightcompany.com.garage.fcm.utils.NotificationUtils;
+import thebrightcompany.com.garage.model.login.Garage;
+import thebrightcompany.com.garage.model.login.LoginResponse;
 import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
 import thebrightcompany.com.garage.utils.Utils;
@@ -188,22 +193,25 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @Override
     public void onNetWorkError(String msg) {
+        hideProgress();
         showMessage(msg);
     }
 
     @Override
     public void onLoginError(String msg) {
+        hideProgress();
         showMessage(msg);
     }
 
     @Override
-    public void onLoginSuccess(String token) {
+    public void onLoginSuccess(String token, Garage garage) {
         //Process return main
         hideProgress();
         if (sharedPreferencesUtils != null){
             sharedPreferencesUtils.writeStringPreference(Constant.REF_EMAIL, email);
             sharedPreferencesUtils.writeStringPreference(Constant.REF_PASSWORD, password);
             sharedPreferencesUtils.writeStringPreference(Constant.TOKEN, token);
+            sharedPreferencesUtils.writeIntegerPreference(Constant.GARAGE_ID, garage.getId());
         }
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -211,12 +219,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @Override
     public void onEmailError(String msg) {
+        hideProgress();
         txt_email.setError(msg);
         txt_email.requestFocus();
     }
 
     @Override
     public void onPasswordError(String msg) {
+        hideProgress();
         txt_password.setError(msg);
         txt_password.requestFocus();
     }
@@ -244,6 +254,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @OnClick(R.id.txt_forGotPassWord)
     public void processForgotPassword(){
         //todo process forgot password
+        showMessage("Chức năng này đang được hoàn thiện.");
     }
 
     @OnClick(R.id.btn_login)
@@ -254,8 +265,39 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         showProgress();
         createTimeOut(3000);
         //todo process login
-
+        //processLogin(email, password, Utils.FCM_TOKEN);
     }
+
+    private void processLogin(String email, String password, String fcmToken) {
+        if (!Utils.isNetworkAvailable(this)){
+            onNetWorkError(getString(R.string.str_msg_network_fail));
+            return;
+        }
+
+        LoginResponseListener listener = new LoginResponseListener();
+        LoginCallAPI callAPI = new LoginCallAPI();
+        callAPI.processForgotPassword(email, password, fcmToken, listener);
+    }
+
+    private class LoginResponseListener extends OnResponseListener<LoginResponse>{
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            onLoginError("Có lỗi xảy ra, vui lòng thử lại.");
+            super.onErrorResponse(error);
+        }
+
+        @Override
+        public void onResponse(LoginResponse response) {
+            super.onResponse(response);
+            int status_code = response.getStatus_code();
+            if (status_code == 0){
+                onLoginSuccess(response.getToken(), response.getGarage());
+            }else {
+                onLoginError(response.getMessage());
+            }
+        }
+    }
+
 
     /**
      * Use to hide progress
@@ -267,7 +309,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         {
             @Override
             public void run() {
-                onLoginSuccess("");
+                onLoginSuccess("", null);
             }
         }, time );
     }

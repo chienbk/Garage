@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@android:color/black"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông báo"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_alert_dialog_text"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btn_alert_dialog_close"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@android:color/black"
+        android:text="Đóng"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

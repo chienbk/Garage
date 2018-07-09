@@ -17,4 +17,8 @@
     <string name="str_date_create">Năm thành lập:</string>
     <string name="str_confirm_logout">Bạn thực sự muốn đăng xuất?</string>
     <string name="title_activity_maps">Map</string>
+    <string name="gps_network_not_enabled">Bạn cần bật GPS</string>
+    <string name="dialog_notice">Chú ý</string>
+    <string name="open_location_settings">Cài đặt</string>
+    <string name="close_location_settings">Thoát</string>
 </resources>
