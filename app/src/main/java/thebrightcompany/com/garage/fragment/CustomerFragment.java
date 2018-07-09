@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -62,6 +65,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
 
     @BindView(R.id.layout_detail)
     LinearLayout layout_detail;
+    private MenuItem menuItem;
 
 
     @Nullable
@@ -79,6 +83,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * @param view
      */
     private void initView(View view) {
+        setHasOptionsMenu(true);
         homeActivity.showDialogAskEnableGPS();
         homeActivity.setTitle("Khách hàng mới");
         sharedPreferencesUtils = new SharedPreferencesUtils(homeActivity);
@@ -334,6 +339,24 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             currentMarker = marker;
             moveCamera(mLat, mLng);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        inflater.inflate(R.menu.menu_add_order, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_order:
+                showMessage("We will come back soon!");
+                break;
+        }
+        return true;
+
     }
 }
 
