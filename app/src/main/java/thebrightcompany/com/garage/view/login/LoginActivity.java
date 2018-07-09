@@ -263,9 +263,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         email = txt_email.getText().toString();
         password = txt_password.getText().toString();
         showProgress();
-        createTimeOut(3000);
+        //createTimeOut(3000);
         //todo process login
-        //processLogin(email, password, Utils.FCM_TOKEN);
+        processLogin(email, password, Utils.FCM_TOKEN);
     }
 
     private void processLogin(String email, String password, String fcmToken) {
@@ -292,6 +292,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
             int status_code = response.getStatus_code();
             if (status_code == 0){
                 onLoginSuccess(response.getToken(), response.getGarage());
+                showMessage(response.getMessage());
             }else {
                 onLoginError(response.getMessage());
             }
