@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +15,26 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.orders.GetOrdersRequest;
+import thebrightcompany.com.garage.model.LatLongMessage;
 import thebrightcompany.com.garage.model.orderonmap.Order;
 import thebrightcompany.com.garage.model.orderonmap.OrderResponse;
 import thebrightcompany.com.garage.utils.Constant;
@@ -48,6 +57,8 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     private double mLat = 151;
     private Marker currentMarker;
     private boolean isChoice = false;
+    private boolean isFirstOpen = true;
+    private boolean isFirstCallAPI = true;
 
     @BindView(R.id.layout_detail)
     LinearLayout layout_detail;
@@ -68,6 +79,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * @param view
      */
     private void initView(View view) {
+        homeActivity.showDialogAskEnableGPS();
         homeActivity.setTitle("Khách hàng mới");
         sharedPreferencesUtils = new SharedPreferencesUtils(homeActivity);
         idOfGarage = sharedPreferencesUtils.readIntegerPreference(Constant.GARAGE_ID, 0);
@@ -79,7 +91,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             onNetWorkError(getString(R.string.str_msg_network_fail));
             return;
         }
-        processGetLisCustomer(idOfGarage);
+        //processGetLisCustomer(idOfGarage);
     }
 
     /**
@@ -135,6 +147,18 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public boolean onMarkerClick(Marker marker) {
         int id = (int) marker.getTag();
         if (id != -1){
@@ -165,7 +189,9 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * @param order
      */
     private void processDisplayInformationOfOrder(Order order) {
-
+        isChoice = true;
+        idOfGarage =  order.getOrder_id();
+        layout_detail.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -201,6 +227,58 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @Override
     public void onGetCustomerSuccess(String token, List<Order> orders) {
         hideProgress();
+    }
+
+    /**
+     * The method use to get list data
+     * @param orders
+     */
+    private void addGarageToMap(List<Order> orders) {
+        if (mOrders.size() > 0 && mOrders != null){
+            for (Order gara : mOrders){
+                Marker marker =
+                        mGoogleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(gara.getLat(), gara.getLng()))
+                                //.title(title)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_customer_on_map))
+                                .alpha(0.7f));
+                marker.setTag(gara.getOrder_id());
+            }
+        }
+    }
+
+    //Handle the data receive from bluetooth
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LatLongMessage event){
+        //todo something
+        mLat = event.getLat();
+        mLng = event.getLng();
+        Log.d(TAG, "lat: " + mLat);
+        Log.d(TAG, "lng: " + mLng);
+
+        if (mGoogleMap != null && isFirstCallAPI){
+            mGoogleMap.clear();
+            //presenter.processGetGarageOnMap(Utils.APP_TOKEN, mLat, mLng, 5);
+            //todo something
+            isFirstCallAPI = false;
+        }
+        if (mGoogleMap != null){
+
+            if (currentMarker != null){
+                currentMarker.remove();
+            }
+
+            LatLng yourLocation = new LatLng(mLat, mLng);
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Your location!"));
+            marker.setTag(-1);
+            currentMarker = marker;
+            if (isFirstOpen){
+                //initRecycleView();
+                moveCamera(mLat, mLng);
+                isFirstOpen = false;
+            }
+        }
+
     }
 
     @Override
@@ -240,6 +318,22 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     public void onResume() {
         super.onResume();
         homeActivity.setTitle("Khách hàng mới");
+    }
+
+    @OnClick(R.id.fab_add)
+    public void focusMyLocation(){
+        if (mGoogleMap != null){
+
+            if (currentMarker != null){
+                currentMarker.remove();
+            }
+
+            LatLng yourLocation = new LatLng(mLat, mLng);
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Your location!"));
+            marker.setTag(-1);
+            currentMarker = marker;
+            moveCamera(mLat, mLng);
+        }
     }
 }
 
