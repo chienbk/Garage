@@ -17,4 +17,12 @@
     <string name="str_date_create">Năm thành lập:</string>
     <string name="str_confirm_logout">Bạn thực sự muốn đăng xuất?</string>
     <string name="title_activity_maps">Map</string>
+
+
+    // notice
+    <string name="str_customer_type_new">Khách hàng mới</string>
+    <string name="string_don_hang">Đơn hàng: </string>
+    <string name="string_car_type">Loại Xe: </string>
+    <string name="string_car_number">Biển số:</string>
+    <string name="string_car_error">LỖI CỦA XE</string>
 </resources>
