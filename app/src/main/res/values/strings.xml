@@ -29,4 +29,10 @@
     <string name="string_car_type">Loại Xe: </string>
     <string name="string_car_number">Biển số:</string>
     <string name="string_car_error">LỖI CỦA XE</string>
+    
+    //note
+    <string name="str_note_title">Thông Báo</string>
+    
+    //garage
+    <string name="str_garage_title">Xe trong Garage</string>
 </resources>
