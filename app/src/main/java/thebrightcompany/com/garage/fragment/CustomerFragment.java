@@ -1,6 +1,7 @@
 package thebrightcompany.com.garage.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,7 @@ import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
 import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
+import thebrightcompany.com.garage.view.addcustomer.CreateCustomerActivity;
 
 public class CustomerFragment extends Fragment implements CustomerView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
@@ -352,7 +354,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_order:
-                showMessage("We will come back soon!");
+                startActivity(new Intent(homeActivity, CreateCustomerActivity.class));
                 break;
         }
         return true;
