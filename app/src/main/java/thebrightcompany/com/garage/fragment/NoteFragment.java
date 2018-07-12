@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import thebrightcompany.com.garage.R;
@@ -31,7 +32,9 @@ public class NoteFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((MainActivity)getContext()).setTittle(getResources().getString(R.string.str_note_title));
         lstView = (ListView) getView().findViewById(R.id.lst_note);
+        notes = new ArrayList<>();
         adapter = new NoteListAdapter(getContext(), R.layout.item_notice_customer );
+
         adapter.notes = this.notes;
         lstView.setAdapter(adapter);
 

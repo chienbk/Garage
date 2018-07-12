@@ -46,6 +46,11 @@ public class NoteListAdapter extends ArrayAdapter<NoteModel>{
 
     }
 
+    @Override
+    public int getCount() {
+        return this.notes.size();
+    }
+
     @Nullable
     @Override
     public NoteModel getItem(int position) {
