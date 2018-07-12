@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "605147686290",
-    "firebase_url": "https://garage-85a59.firebaseio.com",
-    "project_id": "garage-85a59",
-    "storage_bucket": "garage-85a59.appspot.com"
+    "project_number": "287054056112",
+    "firebase_url": "https://kdoctor-1523466614208.firebaseio.com",
+    "project_id": "kdoctor-1523466614208",
+    "storage_bucket": "kdoctor-1523466614208.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:605147686290:android:6063c121915abfdd",
+        "mobilesdk_app_id": "1:287054056112:android:6063c121915abfdd",
         "android_client_info": {
           "package_name": "thebrightcompany.com.garage"
         }
       },
       "oauth_client": [
         {
-          "client_id": "605147686290-plgc96m7b52pbe37sine05md987769fd.apps.googleusercontent.com",
+          "client_id": "287054056112-qa2p679clptdd1suc6d4nb0p6a3a4rp5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "thebrightcompany.com.garage",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "605147686290-pbmluk3h3t22lkhn311m1edeokgp92be.apps.googleusercontent.com",
+          "client_id": "287054056112-914uhclolat2d8a35l83tfte0vg0sc5b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCu7PF7B7bYbsmVybZ86HJvfxOIkZ6AnMI"
+          "current_key": "AIzaSyCsYhOPHT1I60gWcg5A-6iUSu6To5HpfPs"
         }
       ],
       "services": {
@@ -40,8 +40,68 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "605147686290-pbmluk3h3t22lkhn311m1edeokgp92be.apps.googleusercontent.com",
+              "client_id": "287054056112-914uhclolat2d8a35l83tfte0vg0sc5b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "287054056112-qh1t7oh3pfnfgdhmekno96gmrkjce9hs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thebright.kdoctor",
+                "app_store_id": "1406869854"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287054056112:android:2aefc12d8919bed5",
+        "android_client_info": {
+          "package_name": "thebrightcompany.com.kdoctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287054056112-nh8ro98q0cfrh8nmk72vqm8jk4h6rhf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thebrightcompany.com.kdoctor",
+            "certificate_hash": "00ccf97ac59c5efd88ea705e3fb42e048a7bfe35"
+          }
+        },
+        {
+          "client_id": "287054056112-914uhclolat2d8a35l83tfte0vg0sc5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsYhOPHT1I60gWcg5A-6iUSu6To5HpfPs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287054056112-914uhclolat2d8a35l83tfte0vg0sc5b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "287054056112-qh1t7oh3pfnfgdhmekno96gmrkjce9hs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thebright.kdoctor",
+                "app_store_id": "1406869854"
+              }
             }
           ]
         },

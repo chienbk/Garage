@@ -12,7 +12,8 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppThemeNew.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -115,15 +116,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom"
                     android:orientation="vertical">
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginBottom="20dp"
-                        android:background="@android:color/transparent"
-                        app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
                     <LinearLayout
                         android:id="@+id/layout_detail"

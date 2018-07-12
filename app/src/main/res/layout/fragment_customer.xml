@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_marginBottom="20dp"
-                    android:background="@android:color/transparent"
+                    app:backgroundTint="@color/color_disable_edit_text"
                     app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
                 <LinearLayout
@@ -54,21 +54,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <FrameLayout
-                            android:id="@+id/imgAvatar"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
-                            android:background="@mipmap/ic_launcher" >
-
-                            <!--<ImageView
-                                android:id="@+id/img_exit"
-                                android:layout_gravity="top|left"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_search_close"/>-->
-
-                        </FrameLayout>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -77,62 +62,208 @@
                             android:layout_marginBottom="5dp"
                             android:orientation="vertical">
 
-                            <RelativeLayout
-                                android:id="@+id/layout_header"
-                                android:padding="5dp"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/txt_nameOfGarage"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@android:color/black"
-                                    android:textStyle="bold"
-                                    android:text=""
-                                    android:textSize="@dimen/txt_normal"
-                                    android:layout_alignParentLeft="true"
-                                    android:ellipsize="end"
-                                    android:layout_centerVertical="true"
-                                    android:layout_toLeftOf="@+id/layout_distance"
-                                    android:layout_marginRight="5dp" />
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:id="@+id/layout_distance"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:background="@drawable/border_item_gara_on_map"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+                                    android:layout_width="0dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.8">
 
                                     <TextView
-                                        android:id="@+id/txt_distance"
-                                        android:padding="5dp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@android:color/black"
-                                        android:text=""
-                                        android:textSize="@dimen/txt_normal" />
+                                        android:singleLine="true"
+                                        android:text="Đơn hàng:"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
                                 </LinearLayout>
-                            </RelativeLayout>
 
-                            <RatingBar
-                                android:id="@+id/rate_garage"
-                                style="?android:attr/ratingBarStyleSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:rating="4"
-                                android:numStars="5"
-                                android:clickable="false"
-                                android:isIndicator="true" />
+                                <LinearLayout
+                                    android:layout_width="0dp"
 
-                            <TextView
-                                android:id="@+id/txt_addressOfGarage"
-                                android:text=""
-                                android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1.2">
+
+                                    <TextView
+                                        android:id="@+id/txt_orderId"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="HH3456"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/txt_normal"
-                                android:textStyle="normal" />
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.8">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="Tên khách hàng:"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1.2">
+
+                                    <TextView
+                                        android:id="@+id/txt_nameOfCustomer"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="HH3456"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.8">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="Hãng xe:"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1.2">
+
+                                    <TextView
+                                        android:id="@+id/txt_typeOfCar"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Ford Ranger"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.8">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="Biển số xe:"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1.2">
+
+                                    <TextView
+                                        android:id="@+id/txt_licenceOfCar"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="34E1-132.09"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.8">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="Mã lỗi:"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1.2">
+
+                                    <TextView
+                                        android:id="@+id/txt_troubleCode"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="34E1-132.09"
+                                        android:textColor="#000000"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -144,27 +275,38 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
-                        android:weightSum="2">
+                        android:weightSum="3">
 
                         <Button
-                            android:id="@+id/btn_direct"
+                            android:id="@+id/btn_call"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Direct"
+                            android:text="Gọi điện"
                             android:textColor="@android:color/white"
-                            android:background="#999999"
+                            android:background="#007c89"
                             android:textAllCaps="false"
                             android:layout_marginRight="5dp"
                             android:textSize="@dimen/txt_tittle" />
-
                         <Button
-                            android:id="@+id/btn_contact"
+                            android:id="@+id/btn_repair"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:background="#007c89"
                             android:layout_weight="1"
-                            android:text="Call"
+                            android:text="Sửa chữa"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@android:color/white"
+                            android:textAllCaps="false"
+                            android:textSize="@dimen/txt_tittle" />
+
+                        <Button
+                            android:id="@+id/btn_cancel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="#007c89"
+                            android:layout_weight="1"
+                            android:text="Hủy"
                             android:layout_marginLeft="5dp"
                             android:textColor="@android:color/white"
                             android:textAllCaps="false"

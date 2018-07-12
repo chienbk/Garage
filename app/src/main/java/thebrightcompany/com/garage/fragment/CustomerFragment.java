@@ -1,10 +1,15 @@
 package thebrightcompany.com.garage.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +45,7 @@ import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.orders.GetOrdersRequest;
 import thebrightcompany.com.garage.model.LatLongMessage;
+import thebrightcompany.com.garage.model.login.Garage;
 import thebrightcompany.com.garage.model.orderonmap.Order;
 import thebrightcompany.com.garage.model.orderonmap.OrderResponse;
 import thebrightcompany.com.garage.utils.Constant;
@@ -50,9 +57,12 @@ import thebrightcompany.com.garage.view.addcustomer.CreateCustomerActivity;
 public class CustomerFragment extends Fragment implements CustomerView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     public static final String TAG = CustomerFragment.class.getSimpleName();
+    private static final int REQUEST_PHONE_CALL = 101;
+
     private MainActivity homeActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
+    private String idOrder;
     private int idOfGarage;
     private GoogleMap mGoogleMap;
     private List<Order> mOrders = new ArrayList<>();
@@ -67,8 +77,14 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
 
     @BindView(R.id.layout_detail)
     LinearLayout layout_detail;
-    private MenuItem menuItem;
+    @BindView(R.id.txt_orderId) TextView txt_orderId;
+    @BindView(R.id.txt_nameOfCustomer) TextView txt_nameOfCustomer;
+    @BindView(R.id.txt_typeOfCar) TextView txt_typeOfCar;
+    @BindView(R.id.txt_licenceOfCar) TextView txt_licenceOfCar;
+    @BindView(R.id.txt_troubleCode) TextView txt_troubleCode;
 
+    private String phone = "";
+    private Order mOrder;
 
     @Nullable
     @Override
@@ -98,17 +114,17 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             onNetWorkError(getString(R.string.str_msg_network_fail));
             return;
         }
-        //processGetLisCustomer(idOfGarage);
+        //processGetLisCustomer();
     }
 
     /**
      * The method use to get lis customer on map
-     * @param idOfGarage
+     * @param
      */
-    private void processGetLisCustomer(int idOfGarage) {
+    private void processGetLisCustomer() {
         showProgress();
         OrdersResponseListener listener = new OrdersResponseListener();
-        GetOrdersRequest request = new GetOrdersRequest(listener, idOfGarage);
+        GetOrdersRequest request = new GetOrdersRequest(listener);
         App.addRequest(request, "Orders");
 
     }
@@ -167,15 +183,17 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        int id = (int) marker.getTag();
-        if (id != -1){
+        String id = marker.getTag().toString();
+
+        if (Integer.parseInt(id) != -1){
             Order order = new Order();
             for (int i = 0; i < mOrders.size(); i ++){
                 if (id == mOrders.get(i).getOrder_id()){
                     //idOfGarage = id;
                     order = mOrders.get(i);
+                    idOrder = order.getOrder_id();
 
-                    if (isChoice && idOfGarage == id){
+                    if (isChoice && idOrder.equals(i)){
                         layout_detail.setVisibility(View.GONE);
                         isChoice = false;
                     }else {
@@ -197,8 +215,19 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      */
     private void processDisplayInformationOfOrder(Order order) {
         isChoice = true;
-        idOfGarage =  order.getOrder_id();
+        //idOfGarage =  order.getOrder_id();
+        this.mOrder = order;
         layout_detail.setVisibility(View.VISIBLE);
+        try {
+            phone = order.getPhone();
+            txt_orderId.setText(order.getOrder_id());
+            txt_nameOfCustomer.setText(order.getNameOfCustomer());
+            txt_typeOfCar.setText(order.getTypeOfCar());
+            txt_licenceOfCar.setText(order.getLicenseOfCar());
+            txt_troubleCode.setText(order.getTrouble_code().toString());
+        }catch (NullPointerException e){
+            Log.d(TAG, e.toString());
+        }
     }
 
     @Override
@@ -234,6 +263,8 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @Override
     public void onGetCustomerSuccess(String token, List<Order> orders) {
         hideProgress();
+        this.mOrders = orders;
+        addGarageToMap(orders);
     }
 
     /**
@@ -241,8 +272,8 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * @param orders
      */
     private void addGarageToMap(List<Order> orders) {
-        if (mOrders.size() > 0 && mOrders != null){
-            for (Order gara : mOrders){
+        if (orders.size() > 0 && orders != null){
+            for (Order gara : orders){
                 Marker marker =
                         mGoogleMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(gara.getLat(), gara.getLng()))
@@ -359,6 +390,69 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
         }
         return true;
 
+    }
+
+    @OnClick(R.id.btn_call)
+    public void processCall(){
+        //todo call customer
+        processCallCustomer(mOrder.getPhone());
+    }
+
+    @OnClick(R.id.btn_repair)
+    public void processRepair(){
+        //todo accept repair
+
+    }
+
+    @OnClick(R.id.btn_cancel)
+    public void processCancelOrder(){
+        //todo cancel order
+
+    }
+
+    /**
+     * The method use to call garage
+     *
+     * @param phone
+     */
+    private void processCallCustomer(String phone) {
+        if (phone != null && phone.length() > 0){
+            phone = phone.replaceAll("\\s+","");
+
+            if (ContextCompat.checkSelfPermission(homeActivity, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(homeActivity, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                Intent callSupport = new Intent(Intent.ACTION_CALL, Uri
+                        .parse("tel:" + phone));
+                startActivity(callSupport);
+            }
+        }else {
+            showMessage("Garage này chưa cập nhật số điện thoại!");
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PHONE_CALL){
+            if (ContextCompat.checkSelfPermission(homeActivity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(homeActivity, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                Intent callSupport = new Intent(Intent.ACTION_CALL, Uri
+                        .parse("tel:" + phone));
+                startActivity(callSupport);
+            }
+        }
+    }
+
+    @OnClick(R.id.layout_detail)
+    public void processRedirectOrderDetail(){
+        //todo process redirect order detail
+        /*Intent intent = new Intent();
+        intent.putExtra("idOfGarage", mOrder.getOrder_id());
+        startActivity(intent);*/
+        showMessage("Redirect to order detail!");
     }
 }
 
