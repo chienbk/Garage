@@ -120,13 +120,13 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * The method use to get lis customer on map
      * @param
      */
-    private void processGetLisCustomer() {
-        showProgress();
-        OrdersResponseListener listener = new OrdersResponseListener();
-        GetOrdersRequest request = new GetOrdersRequest(listener);
-        App.addRequest(request, "Orders");
-
-    }
+//    private void processGetLisCustomer() {
+//        showProgress();
+//        OrdersResponseListener listener = new OrdersResponseListener();
+//        GetOrdersRequest request = new GetOrdersRequest(listener);
+//        App.addRequest(request, "Orders");
+//
+//    }
 
     private class OrdersResponseListener extends OnResponseListener<OrderResponse>{
 

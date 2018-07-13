@@ -1,4 +1,4 @@
-package thebrightcompany.com.garage.api.login;
+package thebrightcompany.com.garage.api.profile;
 
 
 import com.google.gson.reflect.TypeToken;
@@ -12,9 +12,9 @@ import thebrightcompany.com.garage.utils.Constant;
  * Created by ChienNV on 10/25/16.
  */
 
-public class LoginRequest extends BasePostRequest<LoginResponse> {
+public class ProfileRequest extends BasePostRequest<LoginResponse> {
 
-    public LoginRequest(OnResponseListener<LoginResponse> listener) {
+    public ProfileRequest(OnResponseListener<LoginResponse> listener) {
         super(Constant.URL_LOGIN, new TypeToken<LoginResponse>() {
         }.getType(), listener);
     }
