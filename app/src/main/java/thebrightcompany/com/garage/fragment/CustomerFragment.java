@@ -45,14 +45,13 @@ import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.orders.GetOrdersRequest;
 import thebrightcompany.com.garage.model.LatLongMessage;
-import thebrightcompany.com.garage.model.login.Garage;
 import thebrightcompany.com.garage.model.orderonmap.Order;
 import thebrightcompany.com.garage.model.orderonmap.OrderResponse;
 import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.SharedPreferencesUtils;
 import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
-import thebrightcompany.com.garage.view.addcustomer.CreateCustomerActivity;
+import thebrightcompany.com.garage.view.addcustomer.CreateOrderActivity;
 
 public class CustomerFragment extends Fragment implements CustomerView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
@@ -385,7 +384,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_order:
-                startActivity(new Intent(homeActivity, CreateCustomerActivity.class));
+                startActivity(new Intent(homeActivity, CreateOrderActivity.class));
                 break;
         }
         return true;

@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.List;
 
 import thebrightcompany.com.garage.R;
@@ -28,11 +26,9 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
 
     private List<Customer> mList;
     private ItemSearchCustomerOnClickListener mListener;
-    private LatLng latLng;
 
-    public SearchCustomerAdapter(List<Customer> list, LatLng latLng, ItemSearchCustomerOnClickListener listener) {
+    public SearchCustomerAdapter(List<Customer> list, ItemSearchCustomerOnClickListener listener) {
         this.mList = list;
-        this.latLng = latLng;
         this.mListener = listener;
     }
 
@@ -48,21 +44,18 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
         final Customer customer = mList.get(position);
-
-       /* try {
-            holder.txt_nameOfGarage.setText(garageOnMap.getName());
-            holder.txt_distance.setText(Utils.calculationByDistance(latLng, new LatLng(garageOnMap.getLat(), garageOnMap.getLng())) + " km");
-            holder.txt_addressOfGarage.setText(garageOnMap.getAddress());
+        try {
+            holder.txt_nameOfCustomer.setText(customer.getNameOfCustomer());
+            holder.txt_phone.setText(customer.getPhone());
+            holder.layout_search_garage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemClickListener(position, customer);
+                }
+            });
         }catch (NullPointerException e){
             Log.d(TAG, e.toString());
         }
-
-        holder.layout_search_garage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onItemClickListener(position, garageOnMap);
-            }
-        });*/
     }
 
     @Override
@@ -72,7 +65,7 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txt_nameOfGarage, txt_distance, txt_addressOfGarage;
+        public TextView txt_nameOfCustomer, txt_phone;
         public LinearLayout layout_search_garage;
 
         public MyViewHolder(View view) {
@@ -80,9 +73,8 @@ public class SearchCustomerAdapter extends RecyclerView.Adapter<SearchCustomerAd
 
             layout_search_garage = (LinearLayout) view.findViewById(R.id.layout_search_garage);
 
-            txt_nameOfGarage = (TextView) view.findViewById(R.id.txt_nameOfGarage);
-            txt_distance = (TextView) view.findViewById(R.id.txt_distance);
-            txt_addressOfGarage = (TextView) view.findViewById(R.id.txt_addressOfGarage);
+            txt_nameOfCustomer = (TextView) view.findViewById(R.id.txt_nameOfCustomer);
+            txt_phone = (TextView) view.findViewById(R.id.txt_phone);
         }
     }
 
