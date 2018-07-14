@@ -1,5 +1,7 @@
 package thebrightcompany.com.garage.api.orders;
 
+import android.util.Log;
+
 import com.google.gson.reflect.TypeToken;
 
 
@@ -13,5 +15,6 @@ public class GetOrdersRequest extends BaseGetRequest<OrderResponse> {
 
         super(String.format(Constant.URL__CUSTOMER_ON_MAP, token), new TypeToken<OrderResponse>() {
         }.getType(), listener);
+        Log.d("GetOrdersRequest", "url: " + String.format(Constant.URL__CUSTOMER_ON_MAP, token));
     }
 }

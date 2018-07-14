@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,8 +44,11 @@ import butterknife.OnClick;
 import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
+import thebrightcompany.com.garage.api.changestateorder.ChangeStateCallAPI;
+import thebrightcompany.com.garage.api.changestateorder.ChangeStateOrderRequest;
 import thebrightcompany.com.garage.api.orders.GetOrdersRequest;
 import thebrightcompany.com.garage.model.LatLongMessage;
+import thebrightcompany.com.garage.model.changestate.ChangeStateResponse;
 import thebrightcompany.com.garage.model.orderonmap.Order;
 import thebrightcompany.com.garage.model.orderonmap.OrderResponse;
 import thebrightcompany.com.garage.utils.Constant;
@@ -61,7 +65,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     private MainActivity homeActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
-    private String idOrder;
+    private int idOrder;
     private int idOfGarage;
     private GoogleMap mGoogleMap;
     private List<Order> mOrders = new ArrayList<>();
@@ -81,6 +85,8 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @BindView(R.id.txt_typeOfCar) TextView txt_typeOfCar;
     @BindView(R.id.txt_licenceOfCar) TextView txt_licenceOfCar;
     @BindView(R.id.txt_troubleCode) TextView txt_troubleCode;
+    @BindView(R.id.btn_repair)
+    Button btn_repair;
 
     private String phone = "";
     private Order mOrder;
@@ -108,12 +114,6 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
         mLat = Double.parseDouble(sharedPreferencesUtils.readStringPreference(Constant.PREF_LAT, "0"));
         mLng = Double.parseDouble(sharedPreferencesUtils.readStringPreference(Constant.PREF_LNG, "0"));
 
-        //Use when google maps ready
-        if (!Utils.isNetworkAvailable(homeActivity)){
-            onNetWorkError(getString(R.string.str_msg_network_fail));
-            return;
-        }
-        //processGetLisCustomer();
     }
 
     /**
@@ -121,11 +121,18 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      * @param
      */
     private void processGetLisCustomer() {
+        isFirstCallAPI = false;
         showProgress();
-        OrdersResponseListener listener = new OrdersResponseListener();
-        GetOrdersRequest request = new GetOrdersRequest(listener, Utils.APP_TOKEN);
-        App.addRequest(request, "Orders");
-
+        //Use when google maps ready
+        if (!Utils.isNetworkAvailable(homeActivity)){
+            onNetWorkError(getString(R.string.str_msg_network_fail));
+            return;
+        }else {
+            OrdersResponseListener listener = new OrdersResponseListener();
+            GetOrdersRequest request = new GetOrdersRequest(listener, Utils.APP_TOKEN);
+            Log.d(TAG, "app_token: " + Utils.APP_TOKEN);
+            App.addRequest(request, "Orders");
+        }
     }
 
     private class OrdersResponseListener extends OnResponseListener<OrderResponse>{
@@ -133,6 +140,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
         @Override
         public void onErrorResponse(VolleyError error) {
             super.onErrorResponse(error);
+            Log.d(TAG, "VolleyError: " + error.toString());
             onGetCustomerError("Đã có lỗi xảy ra, vui lòng thử lại sau.");
 
         }
@@ -142,7 +150,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             super.onResponse(response);
             int status_code = response.getStatus_code();
             if (status_code == 0){
-                onGetCustomerSuccess(response.getToken(), response.getOrders());
+                onGetCustomerSuccess(response.getDataOfOrder().getToken(), response.getDataOfOrder().getOrders());
             }else {
                 onGetCustomerError(response.getMessage());
             }
@@ -182,17 +190,18 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        String id = marker.getTag().toString();
-
-        if (Integer.parseInt(id) != -1){
+        int id = (int) marker.getTag();
+        Log.d(TAG, "idOfOrder: " + id);
+        if (id != -1){
             Order order = new Order();
             for (int i = 0; i < mOrders.size(); i ++){
-                if (id == mOrders.get(i).getOrder_id()){
+                if (id == mOrders.get(i).getId()){
                     //idOfGarage = id;
+                    mOrder = mOrders.get(i);
                     order = mOrders.get(i);
-                    idOrder = order.getOrder_id();
+                    idOrder = order.getId();
 
-                    if (isChoice && idOrder.equals(i)){
+                    if (isChoice && idOrder == id){
                         layout_detail.setVisibility(View.GONE);
                         isChoice = false;
                     }else {
@@ -219,11 +228,17 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
         layout_detail.setVisibility(View.VISIBLE);
         try {
             phone = order.getPhone();
-            txt_orderId.setText(order.getOrder_id());
-            txt_nameOfCustomer.setText(order.getNameOfCustomer());
-            txt_typeOfCar.setText(order.getTypeOfCar());
-            txt_licenceOfCar.setText(order.getLicenseOfCar());
-            txt_troubleCode.setText(order.getTrouble_code().toString());
+            txt_orderId.setText(order.getId() + "");
+            txt_nameOfCustomer.setText(order.getCustomer_name() + "");
+            txt_typeOfCar.setText("Honda Civic");
+            txt_licenceOfCar.setText("34E1 - 132.09");
+            String troubleCode = "";
+            if (order.getTroubleCodes() != null){
+                for (int i = 0; i < order.getTroubleCodes().size(); i++){
+                    troubleCode = order.getTroubleCodes().get(i).getCode() + "\n";
+                }
+            }
+            txt_troubleCode.setText(troubleCode);
         }catch (NullPointerException e){
             Log.d(TAG, e.toString());
         }
@@ -237,7 +252,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             mGoogleMap.setOnMarkerClickListener(this);
             moveCamera(mLat, mLng);
             //Process get orders
-
+            processGetLisCustomer();
         }
     }
 
@@ -279,7 +294,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
                                 //.title(title)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_customer_on_map))
                                 .alpha(0.7f));
-                marker.setTag(gara.getOrder_id());
+                marker.setTag(gara.getId());
             }
         }
     }
@@ -295,7 +310,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
 
         if (mGoogleMap != null && isFirstCallAPI){
             mGoogleMap.clear();
-            //presenter.processGetGarageOnMap(Utils.APP_TOKEN, mLat, mLng, 5);
+            processGetLisCustomer();
             //todo something
             isFirstCallAPI = false;
         }
@@ -306,7 +321,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             }
 
             LatLng yourLocation = new LatLng(mLat, mLng);
-            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Your location!"));
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Vị trí của bạn"));
             marker.setTag(-1);
             currentMarker = marker;
             if (isFirstOpen){
@@ -327,13 +342,26 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @Override
     public void onAddCustomerSuccess(String token, String msg) {
         hideProgress();
-
+        btn_repair.setEnabled(false);
     }
 
     @Override
     public void onAddCustomerError(String msg) {
         hideProgress();
         showMessage(msg);
+    }
+
+    @Override
+    public void onChangeStateError(String msg) {
+        hideProgress();
+        showMessage(msg);
+    }
+
+    @Override
+    public void onChangeStateSuccess(String msg) {
+        hideProgress();
+        showMessage(msg);
+
     }
 
     @Override
@@ -400,13 +428,45 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @OnClick(R.id.btn_repair)
     public void processRepair(){
         //todo accept repair
+        changeState(1);
 
     }
 
     @OnClick(R.id.btn_cancel)
     public void processCancelOrder(){
         //todo cancel order
+        changeState(-1);
 
+    }
+
+    private void changeState(int status){
+        if (!Utils.isNetworkAvailable(homeActivity)){
+            return;
+        } else {
+            ChangeStateResponseListener listener = new ChangeStateResponseListener();
+            ChangeStateCallAPI callAPI = new ChangeStateCallAPI();
+            callAPI.processChangeState(mOrder.getId(), status, Utils.APP_TOKEN, listener);
+        }
+    }
+
+
+    private class ChangeStateResponseListener extends OnResponseListener<ChangeStateResponse>{
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            super.onErrorResponse(error);
+            onChangeStateError("Đã có lỗi xáy ra, vui lòng thử lại.");
+        }
+
+        @Override
+        public void onResponse(ChangeStateResponse response) {
+            super.onResponse(response);
+            int status_code = response.getStatus_code();
+            if (status_code == 0){
+                onChangeStateSuccess(response.getMessage());
+            } else {
+                onChangeStateError(response.getMessage());
+            }
+        }
     }
 
     /**

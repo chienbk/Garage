@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         String deviceToken = sharedPreferencesUtils.readStringPreference(Constant.PREF_DEVICE_TOKEN, "");
         if (!TextUtils.isEmpty(deviceToken)){
             Utils.APP_TOKEN = deviceToken;
+            Log.d(TAG, "device token: " + Utils.APP_TOKEN);
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -211,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         if (sharedPreferencesUtils != null && garage != null){
             sharedPreferencesUtils.writeStringPreference(Constant.REF_EMAIL, email);
             sharedPreferencesUtils.writeStringPreference(Constant.REF_PASSWORD, password);
-            sharedPreferencesUtils.writeStringPreference(Constant.TOKEN, token);
+            sharedPreferencesUtils.writeStringPreference(Constant.PREF_DEVICE_TOKEN, token);
             sharedPreferencesUtils.writeIntegerPreference(Constant.GARAGE_ID, garage.getId());
         }
         startActivity(new Intent(this, MainActivity.class));

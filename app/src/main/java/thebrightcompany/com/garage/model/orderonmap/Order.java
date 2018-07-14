@@ -9,43 +9,45 @@ import java.util.List;
  * @author ChienBK
  */
 public class Order implements Serializable{
-    @SerializedName("order_id")
-    private String order_id;
+    @SerializedName("id")
+    private int id;
     @SerializedName("customer_id")
     private int customer_id;
-    @SerializedName("nameOfCustomer")
-    private String nameOfCustomer;
-    @SerializedName("phone")
-    private String phone;
-    @SerializedName("address")
-    private String address;
-    @SerializedName("typeOfCar")
-    private String typeOfCar;
-    @SerializedName("licenseOfCar")
-    private String licenseOfCar;
-    @SerializedName("state")
-    private int state;
-    @SerializedName("time")
-    private String time;
+    @SerializedName("customer_name")
+    private String customer_name;
+    @SerializedName("garage_id")
+    private String garage_id;
+    @SerializedName("customer_info")
+    private String customer_info;
+    @SerializedName("code")
+    private String code;
+    @SerializedName("customer_code")
+    private String customer_code;
+    @SerializedName("time_create")
+    private String time_create;
     @SerializedName("end_time")
     private String end_time;
-    @SerializedName("cost")
-    private String cost;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("phone")
+    private String phone;
     @SerializedName("lat")
     private double lat;
     @SerializedName("lng")
     private double lng;
-    @SerializedName("email")
-    private double email;
+    @SerializedName("note")
+    private String note;
+    @SerializedName("status")
+    private int status;
     @SerializedName("trouble_code")
-    private List<TroubleCode> trouble_code;
+    private List<TroubleCode> troubleCodes;
 
-    public String getOrder_id() {
-        return order_id;
+    public int getId() {
+        return id;
     }
 
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCustomer_id() {
@@ -56,60 +58,52 @@ public class Order implements Serializable{
         this.customer_id = customer_id;
     }
 
-    public String getNameOfCustomer() {
-        return nameOfCustomer;
+    public String getCustomer_name() {
+        return customer_name;
     }
 
-    public void setNameOfCustomer(String nameOfCustomer) {
-        this.nameOfCustomer = nameOfCustomer;
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getGarage_id() {
+        return garage_id;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setGarage_id(String garage_id) {
+        this.garage_id = garage_id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCustomer_info() {
+        return customer_info;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCustomer_info(String customer_info) {
+        this.customer_info = customer_info;
     }
 
-    public String getTypeOfCar() {
-        return typeOfCar;
+    public String getCode() {
+        return code;
     }
 
-    public void setTypeOfCar(String typeOfCar) {
-        this.typeOfCar = typeOfCar;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getLicenseOfCar() {
-        return licenseOfCar;
+    public String getCustomer_code() {
+        return customer_code;
     }
 
-    public void setLicenseOfCar(String licenseOfCar) {
-        this.licenseOfCar = licenseOfCar;
+    public void setCustomer_code(String customer_code) {
+        this.customer_code = customer_code;
     }
 
-    public int getState() {
-        return state;
+    public String getTime_create() {
+        return time_create;
     }
 
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime_create(String time_create) {
+        this.time_create = time_create;
     }
 
     public String getEnd_time() {
@@ -120,12 +114,20 @@ public class Order implements Serializable{
         this.end_time = end_time;
     }
 
-    public String getCost() {
-        return cost;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCost(String cost) {
-        this.cost = cost;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public double getLat() {
@@ -144,19 +146,27 @@ public class Order implements Serializable{
         this.lng = lng;
     }
 
-    public double getEmail() {
-        return email;
+    public String getNote() {
+        return note;
     }
 
-    public void setEmail(double email) {
-        this.email = email;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public List<TroubleCode> getTrouble_code() {
-        return trouble_code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setTrouble_code(List<TroubleCode> trouble_code) {
-        this.trouble_code = trouble_code;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public List<TroubleCode> getTroubleCodes() {
+        return troubleCodes;
+    }
+
+    public void setTroubleCodes(List<TroubleCode> troubleCodes) {
+        this.troubleCodes = troubleCodes;
     }
 }

@@ -37,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:layout_marginBottom="20dp"
                     app:backgroundTint="@color/color_disable_edit_text"
                     app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
@@ -83,12 +82,11 @@
                                         android:singleLine="true"
                                         android:text="Đơn hàng:"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-
                                     android:layout_height="match_parent"
                                     android:layout_weight="1.2">
 
@@ -98,7 +96,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="HH3456"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -123,7 +121,7 @@
                                         android:singleLine="true"
                                         android:text="Tên khách hàng:"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -138,7 +136,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="HH3456"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -164,7 +162,7 @@
                                         android:singleLine="true"
                                         android:text="Hãng xe:"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -179,7 +177,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="Ford Ranger"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -204,7 +202,7 @@
                                         android:singleLine="true"
                                         android:text="Biển số xe:"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -219,7 +217,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="34E1-132.09"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -244,7 +242,7 @@
                                         android:singleLine="true"
                                         android:text="Mã lỗi:"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -259,7 +257,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="34E1-132.09"
                                         android:textColor="#000000"
-                                        android:textSize="18sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
