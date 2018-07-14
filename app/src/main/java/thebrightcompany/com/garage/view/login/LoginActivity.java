@@ -277,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
         LoginResponseListener listener = new LoginResponseListener();
         LoginCallAPI callAPI = new LoginCallAPI();
-        callAPI.processForgotPassword(email, password, fcmToken, listener);
+        callAPI.processLogin(email, password, fcmToken, listener);
     }
 
     private class LoginResponseListener extends OnResponseListener<LoginResponse>{
@@ -298,22 +298,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
                 onLoginError(response.getMessage());
             }
         }
-    }
-
-
-    /**
-     * Use to hide progress
-     * @param time
-     */
-    private void createTimeOut(long time){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run() {
-                onLoginSuccess("", null);
-            }
-        }, time );
     }
 
     /**

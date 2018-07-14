@@ -9,9 +9,9 @@ import thebrightcompany.com.garage.model.login.LoginResponse;
  * Created by ChienNV on 10/25/16.
  */
 
-public class LoginCallAPI {
+public class ProfileCallAPI {
 
-    public void processLogin(String email, String password, String token, OnResponseListener<LoginResponse> listener){
+    public void processForgotPassword(String email, String password, String token, OnResponseListener<LoginResponse> listener){
         LoginRequest request = new LoginRequest(listener);
         request.setEmail(email);
         request.setPassword(password);

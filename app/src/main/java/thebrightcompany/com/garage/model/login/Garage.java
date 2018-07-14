@@ -9,10 +9,10 @@ public class Garage implements Serializable{
     private int id;
     @SerializedName("name")
     private String name;
-    @SerializedName("phone")
-    private String phone;
     @SerializedName("email")
     private String email;
+    @SerializedName("phone")
+    private String phone;
     @SerializedName("description")
     private String description;
 
