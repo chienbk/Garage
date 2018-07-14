@@ -102,7 +102,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     private void initView(View view) {
         setHasOptionsMenu(true);
         homeActivity.showDialogAskEnableGPS();
-        homeActivity.setTitle("Khách hàng mới");
+        homeActivity.setTitle("Tìm Garage");
         sharedPreferencesUtils = new SharedPreferencesUtils(homeActivity);
         idOfGarage = sharedPreferencesUtils.readIntegerPreference(Constant.GARAGE_ID, 0);
         mLat = Double.parseDouble(sharedPreferencesUtils.readStringPreference(Constant.PREF_LAT, "0"));
@@ -123,7 +123,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     private void processGetLisCustomer() {
         showProgress();
         OrdersResponseListener listener = new OrdersResponseListener();
-        GetOrdersRequest request = new GetOrdersRequest(listener);
+        GetOrdersRequest request = new GetOrdersRequest(listener, Utils.APP_TOKEN);
         App.addRequest(request, "Orders");
 
     }
@@ -354,7 +354,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @Override
     public void onResume() {
         super.onResume();
-        homeActivity.setTitle("Khách hàng mới");
+        homeActivity.setTitle("Tìm Garage");
     }
 
     @OnClick(R.id.fab_add)
@@ -366,7 +366,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             }
 
             LatLng yourLocation = new LatLng(mLat, mLng);
-            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Your location!"));
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(yourLocation).title("Vị trí của bạn"));
             marker.setTag(-1);
             currentMarker = marker;
             moveCamera(mLat, mLng);
