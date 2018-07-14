@@ -1,4 +1,4 @@
-package thebrightcompany.com.garage.api.login;
+package thebrightcompany.com.garage.api.profile;
 
 
 import thebrightcompany.com.garage.App;
@@ -11,11 +11,5 @@ import thebrightcompany.com.garage.model.login.LoginResponse;
 
 public class ProfileCallAPI {
 
-    public void processForgotPassword(String email, String password, String token, OnResponseListener<LoginResponse> listener){
-        LoginRequest request = new LoginRequest(listener);
-        request.setEmail(email);
-        request.setPassword(password);
-        request.setDeviceToken(token);
-        App.addRequest(request, "Login");
-    }
+
 }

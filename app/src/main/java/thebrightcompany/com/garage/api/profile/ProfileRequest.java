@@ -15,7 +15,7 @@ import thebrightcompany.com.garage.utils.Constant;
 public class ProfileRequest extends BasePostRequest<LoginResponse> {
 
     public ProfileRequest(OnResponseListener<LoginResponse> listener) {
-        super(Constant.URL_LOGIN, new TypeToken<LoginResponse>() {
+        super(Constant.URL_GET_LIST_NOTIFICATION, new TypeToken<LoginResponse>() {
         }.getType(), listener);
     }
 
