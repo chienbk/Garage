@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -355,12 +357,14 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             showMessage("Bạn đã chọn sửa chữa cho oto thành công");
             homeActivity.updateToken(token);
             btn_repair.setEnabled(false);
+            btn_repair.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
         }
 
         if (status == -1){
             showMessage("Bạn đã hủy sửa chữa cho oto này");
             homeActivity.updateToken(token);
             btn_cancel.setEnabled(false);
+            btn_cancel.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
         }
         showMessage(msg);
 
