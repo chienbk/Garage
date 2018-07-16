@@ -11,7 +11,7 @@ public class Constant {
     public static final String URL_SEARCH_USER = ROOT_URL + "api/v1/gara/search_user?phone=%s&token=%s";
     public static final String URL_CREATE_ORDER = ROOT_URL + "api/v1/gara/add_order";
     public static final String URL_GET_CUSTOMER = ROOT_URL + "api/v1/gara/get-customers/{idOfGara}/{state}";
-    public static final String URL_GET_LIST_NOTIFICATION = ROOT_URL + "api/v1/gara/notification/{idOfGara}";
+    public static final String URL_GET_LIST_NOTIFICATION = ROOT_URL + "api/v1/gara/notifications?token=%s";
     public static final String URL_UPDATE_TIME = ROOT_URL + "api/v1/gara/update-time-finish";
     public static final String URL_PAYMENT = ROOT_URL + "api/v1/gara/update-payment/{idOfOrder}";
     public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order-detail/{idOfOrder}";

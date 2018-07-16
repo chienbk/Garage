@@ -2,6 +2,7 @@ package thebrightcompany.com.garage.api.base;
 
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -12,6 +13,8 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 import thebrightcompany.com.garage.api.BaseRequest;
 import thebrightcompany.com.garage.api.OnResponseListener;
@@ -22,6 +25,8 @@ import thebrightcompany.com.garage.api.OnResponseListener;
  */
 
 public class BaseGetRequest<T> extends BaseRequest<T> {
+
+    private Map<String, String> mParams = new HashMap<>();
 
     public BaseGetRequest(String url, Type type, OnResponseListener<T> listener) {
         super(Request.Method.GET, url, listener);
@@ -55,5 +60,14 @@ public class BaseGetRequest<T> extends BaseRequest<T> {
     @Override
     public void deliverError(VolleyError error) {
         super.deliverError(error);
+    }
+
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+        return mParams;
+    }
+
+    public void setParam(String key, String value){
+        mParams.put(key, value);
     }
 }
