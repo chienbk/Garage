@@ -8,6 +8,9 @@ public class ChangeStateResponse {
     @SerializedName("message")
     private String message;
 
+    @SerializedName("data")
+    private DataChangeState dataChangeState;
+
     public int getStatus_code() {
         return status_code;
     }
@@ -22,5 +25,13 @@ public class ChangeStateResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public DataChangeState getDataChangeState() {
+        return dataChangeState;
+    }
+
+    public void setDataChangeState(DataChangeState dataChangeState) {
+        this.dataChangeState = dataChangeState;
     }
 }

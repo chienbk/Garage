@@ -9,8 +9,6 @@ public interface CustomerView extends BaseView{
     void onNetWorkError(String msg);
     void onGetCustomerSuccess(String token, List<Order> orders);
     void onGetCustomerError(String msg);
-    void onAddCustomerSuccess(String token, String msg);
-    void onAddCustomerError(String msg);
     void onChangeStateError(String msg);
-    void onChangeStateSuccess(String msg);
+    void onChangeStateSuccess(String token, String msg);
 }
