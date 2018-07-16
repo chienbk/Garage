@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -87,6 +89,9 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @BindView(R.id.txt_troubleCode) TextView txt_troubleCode;
     @BindView(R.id.btn_repair)
     Button btn_repair;
+    @BindView(R.id.btn_cancel)
+    Button btn_cancel;
+    private int status;
 
     private String phone = "";
     private Order mOrder;
@@ -108,7 +113,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     private void initView(View view) {
         setHasOptionsMenu(true);
         homeActivity.showDialogAskEnableGPS();
-        homeActivity.setTitle("Tìm Garage");
+        homeActivity.setTitle("Đơn hàng mới");
         sharedPreferencesUtils = new SharedPreferencesUtils(homeActivity);
         idOfGarage = sharedPreferencesUtils.readIntegerPreference(Constant.GARAGE_ID, 0);
         mLat = Double.parseDouble(sharedPreferencesUtils.readStringPreference(Constant.PREF_LAT, "0"));
@@ -340,26 +345,27 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     }
 
     @Override
-    public void onAddCustomerSuccess(String token, String msg) {
-        hideProgress();
-        btn_repair.setEnabled(false);
-    }
-
-    @Override
-    public void onAddCustomerError(String msg) {
-        hideProgress();
-        showMessage(msg);
-    }
-
-    @Override
     public void onChangeStateError(String msg) {
         hideProgress();
         showMessage(msg);
     }
 
     @Override
-    public void onChangeStateSuccess(String msg) {
+    public void onChangeStateSuccess(String token, String msg) {
         hideProgress();
+        if (status == 1){
+            showMessage("Bạn đã chọn sửa chữa cho oto thành công");
+            homeActivity.updateToken(token);
+            btn_repair.setEnabled(false);
+            btn_repair.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
+        }
+
+        if (status == -1){
+            showMessage("Bạn đã hủy sửa chữa cho oto này");
+            homeActivity.updateToken(token);
+            btn_cancel.setEnabled(false);
+            btn_cancel.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
+        }
         showMessage(msg);
 
     }
@@ -382,7 +388,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @Override
     public void onResume() {
         super.onResume();
-        homeActivity.setTitle("Tìm Garage");
+        homeActivity.setTitle("Đơn hàng mới");
     }
 
     @OnClick(R.id.fab_add)
@@ -428,6 +434,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @OnClick(R.id.btn_repair)
     public void processRepair(){
         //todo accept repair
+        status = 1;
         changeState(1);
 
     }
@@ -435,6 +442,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
     @OnClick(R.id.btn_cancel)
     public void processCancelOrder(){
         //todo cancel order
+        status = -1;
         changeState(-1);
 
     }
@@ -462,7 +470,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             super.onResponse(response);
             int status_code = response.getStatus_code();
             if (status_code == 0){
-                onChangeStateSuccess(response.getMessage());
+                onChangeStateSuccess(response.getDataChangeState().getToken(), response.getMessage());
             } else {
                 onChangeStateError(response.getMessage());
             }

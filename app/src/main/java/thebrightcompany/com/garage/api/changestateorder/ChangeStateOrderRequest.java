@@ -20,7 +20,7 @@ public class ChangeStateOrderRequest extends BasePostRequest<ChangeStateResponse
     }
 
     public void setStatus(String status){
-        setParam("status", status);
+        setParam("state", status);
     }
 
     public void setToken(String token){
