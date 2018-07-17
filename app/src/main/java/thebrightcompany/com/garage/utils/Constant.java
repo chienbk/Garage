@@ -14,7 +14,7 @@ public class Constant {
     public static final String URL_GET_LIST_NOTIFICATION = ROOT_URL + "api/v1/gara/notifications";
     public static final String URL_UPDATE_TIME = ROOT_URL + "api/v1/gara/update-time-finish";
     public static final String URL_PAYMENT = ROOT_URL + "api/v1/gara/update-payment/{idOfOrder}";
-    public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order-detail/{idOfOrder}";
+    public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order/";
     public static final String URL_PROFILE = ROOT_URL + "api/v1/gara/profile/{idOfUser}";
 
     /**

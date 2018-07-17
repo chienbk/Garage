@@ -59,7 +59,9 @@ public class NoteFragment extends Fragment {
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // go to detail
+                NoteDetailFragment noteDetailFragment = new NoteDetailFragment();
+                noteDetailFragment.noteId = adapter.notes.get(i).order_id;
+                ((MainActivity)getContext()).addFragment(noteDetailFragment);
             }
         });
 
