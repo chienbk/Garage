@@ -27,6 +27,7 @@ import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.base.BaseGetRequest;
 import thebrightcompany.com.garage.fragment.note.NoteListAdapter;
+import thebrightcompany.com.garage.fragment.note.TroubleAdapter;
 import thebrightcompany.com.garage.fragment.note.model.NoteModel;
 import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
 import thebrightcompany.com.garage.utils.Constant;
@@ -40,7 +41,12 @@ public class NoteDetailFragment extends Fragment {
 
     public TextView txtCustomerName;
     public TextView txtCustomerTel;
-//    public TextView
+    public TextView txtAddress;
+    public TextView code;
+    public TextView carType;
+
+    public TextView txtNumberTrouble;
+    public ListView listView;
 
     public ListView lstView;
     public NoteListAdapter adapter;
@@ -55,6 +61,17 @@ public class NoteDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((MainActivity)getContext()).setTittle(getResources().getString(R.string.str_note_title));
+
+        txtCustomerName = (TextView)getView().findViewById(R.id.txt_notice_customer_name);
+        txtCustomerTel = (TextView)getView().findViewById(R.id.txt_notice_customer_tel);
+        txtAddress = (TextView)getView().findViewById(R.id.txt_notice_local);
+        code = (TextView)getView().findViewById(R.id.txt_notice_car_number);
+        carType = (TextView)getView().findViewById(R.id.txt_notice_car_type);
+
+        txtNumberTrouble = (TextView)getView().findViewById(R.id.txt_number_trouble);
+        listView = (ListView)getView().findViewById(R.id.lst_trouble);
+//        txtCustomerName = (TextView)getView().findViewById(R.id.txt_notice_customer_name);
+
 //        lstView = (ListView) getView().findViewById(R.id.lst_note);
 //        notes = new ArrayList<>();
 //        adapter = new NoteListAdapter(getContext(), R.layout.item_notice_customer );
@@ -96,7 +113,20 @@ public class NoteDetailFragment extends Fragment {
 //                    notes = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
 //                    adapter.notes = notes;
 //                    adapter.notifyDataSetChanged();
-                    String name = orderModel.address;
+
+                    String[] info = orderModel.customer_info.split("/n");
+                    txtCustomerName.setText(info[0]);
+                    txtCustomerTel.setText(orderModel.phone);
+                    if(info.length>2)carType.setText(info[2]);
+                    code.setText(orderModel.code);
+                    txtAddress.setText(orderModel.address);
+
+                    txtNumberTrouble.setText("("+orderModel.getNumberTrouble()+")");
+
+                    TroubleAdapter adapter = new TroubleAdapter(getContext(),R.layout.item_trouble, orderModel.trouble_code);
+                    listView.setAdapter(adapter);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

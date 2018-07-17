@@ -29,5 +29,10 @@ public class OrderModel implements Serializable{
 
     public List<TroubleModel> trouble_code;
 
+    public int getNumberTrouble(){
+        if(trouble_code == null) return 0;
+        return trouble_code.size();
+    }
+
 
 }
