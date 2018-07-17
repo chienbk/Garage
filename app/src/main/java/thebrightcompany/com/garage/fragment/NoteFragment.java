@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -83,19 +84,17 @@ public class NoteFragment extends Fragment {
 
                 super.onResponse(response);
                 try {
-                    JSONObject object = new JSONObject(response.toString());
-                    String status = object.optString("users");
-//
-//                    List<UserModel> list = LoganSquare.parseList(object.optString("users"),UserModel.class);
-////                    String key = list.get(0).userId;
-//                    String status2 = status;
+                    JSONObject object = new JSONObject(response.get("data").toString());
+
+                    notes = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
+                    adapter.notes = notes;
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                String status = LoganSquare.parse("status",String);
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
         Map<String, String> mParams = new HashMap<>();
