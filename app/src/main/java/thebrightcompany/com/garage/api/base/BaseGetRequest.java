@@ -18,6 +18,7 @@ import java.util.Map;
 
 import thebrightcompany.com.garage.api.BaseRequest;
 import thebrightcompany.com.garage.api.OnResponseListener;
+import thebrightcompany.com.garage.utils.Utils;
 
 
 /**
@@ -26,10 +27,15 @@ import thebrightcompany.com.garage.api.OnResponseListener;
 
 public class BaseGetRequest<T> extends BaseRequest<T> {
 
-    private Map<String, String> mParams = new HashMap<>();
 
     public BaseGetRequest(String url, Type type, OnResponseListener<T> listener) {
         super(Request.Method.GET, url, listener);
+        mType = type;
+        mListener = listener;
+    }
+
+    public BaseGetRequest(String url, Type type, OnResponseListener<T> listener, Map<String, String> mParams) {
+        super(Request.Method.GET, Utils.getUrl(url,mParams), listener);
         mType = type;
         mListener = listener;
     }
@@ -62,12 +68,7 @@ public class BaseGetRequest<T> extends BaseRequest<T> {
         super.deliverError(error);
     }
 
-    @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        return mParams;
-    }
 
-    public void setParam(String key, String value){
-        mParams.put(key, value);
-    }
+
+
 }

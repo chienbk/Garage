@@ -5,9 +5,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -129,5 +132,30 @@ public class Utils {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static String getUrl(String mUrl, Map<String, String> mParams) {
+        StringBuilder stringBuilder = new StringBuilder(mUrl);
+        int i = 1;
+        for (Map.Entry<String,String> entry: mParams.entrySet()) {
+            String key;
+            String value;
+            try {
+                key = URLEncoder.encode(entry.getKey(), "UTF-8");
+                value = URLEncoder.encode(entry.getValue(), "UTF-8");
+                if(i == 1) {
+                    stringBuilder.append("?" + key + "=" + value);
+                } else {
+                    stringBuilder.append("&" + key + "=" + value);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            i++;
+
+        }
+        String url = stringBuilder.toString();
+
+        return url;
     }
 }

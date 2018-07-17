@@ -17,8 +17,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
@@ -94,15 +98,75 @@ public class NoteFragment extends Fragment {
 //                String status = LoganSquare.parse("status",String);
             }
         };
-        BaseGetRequest request = new BaseGetRequest(Constant.URL_GET_LIST_NOTIFICATION, new TypeToken<JsonObject>(){}.getType(),listener);
-//        request.setEmail(email);
-//        request.setPassword(password);
-//        request.setDeviceToken(token);
-        request.setParam("start","0");
-        request.setParam("limit","20");
+        Map<String, String> mParams = new HashMap<>();
+        mParams.put("start","0");
+        mParams.put("limit","20");
+        mParams.put("token",Utils.APP_TOKEN);
+
+        BaseGetRequest request = new BaseGetRequest( Constant.URL_GET_LIST_NOTIFICATION, new TypeToken<JsonObject>(){}.getType(),listener, mParams);
         App.addRequest(request, "notificatons");
 
     }
+
+
+//    public void GET(String url, Map<String, String> params, Response.Listener<String> response_listener, Response.ErrorListener error_listener, String API_KEY, String stringRequestTag) {
+//        final Map<String, String> mParams = params;
+//        final String mAPI_KEY = API_KEY;
+//        final String mUrl = url;
+//
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.GET,
+//                mUrl,
+//                response_listener,
+//                error_listener
+//        ) {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                return mParams;
+//            }
+//
+//            @Override
+//            public String getUrl() {
+//                StringBuilder stringBuilder = new StringBuilder(mUrl);
+//                int i = 1;
+//                for (Map.Entry<String,String> entry: mParams.entrySet()) {
+//                    String key;
+//                    String value;
+//                    try {
+//                        key = URLEncoder.encode(entry.getKey(), "UTF-8");
+//                        value = URLEncoder.encode(entry.getValue(), "UTF-8");
+//                        if(i == 1) {
+//                            stringBuilder.append("?" + key + "=" + value);
+//                        } else {
+//                            stringBuilder.append("&" + key + "=" + value);
+//                        }
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
+//                    i++;
+//
+//                }
+//                String url = stringBuilder.toString();
+//
+//                return url;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() {
+//                Map<String, String> headers = new HashMap<>();
+//                if (!(mAPI_KEY.equals(""))) {
+//                    headers.put("X-API-KEY", mAPI_KEY);
+//                }
+//                return headers;
+//            }
+//        };
+//
+//        if (stringRequestTag != null) {
+//            stringRequest.setTag(stringRequestTag);
+//        }
+//
+//        mRequestQueue.add(stringRequest);
+//    }
 
 }
 
