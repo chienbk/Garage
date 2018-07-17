@@ -69,7 +69,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".view.addcustomer.CreateOrderActivity"
-            android:theme="@style/AppThemeHome"></activity>
+            android:theme="@style/AppThemeHome"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>
