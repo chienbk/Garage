@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,12 +101,123 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lst_trouble"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-    </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10">
 
+            <ListView
+                android:id="@+id/lst_trouble"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:gravity="bottom|fill"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <LinearLayout
+                android:id="@+id/lnr_notification_call"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_button"
+                android:elevation="22dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/garage_img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_phone_in_talk_black_24dp" />
+
+                <TextView
+                    android:id="@+id/garage_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Call"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnr_notification_accept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_button"
+                android:elevation="22dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/note_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_done_black_24dp" />
+
+                <TextView
+                    android:id="@+id/note_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sửa "
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnr_notification_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_button"
+                android:elevation="22dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/setting_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_close_black_24dp" />
+
+                <TextView
+                    android:id="@+id/setting_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Huỷ"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

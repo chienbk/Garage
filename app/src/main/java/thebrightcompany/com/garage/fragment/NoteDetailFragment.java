@@ -1,11 +1,18 @@
 package thebrightcompany.com.garage.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +33,8 @@ import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.base.BaseGetRequest;
+import thebrightcompany.com.garage.api.base.BasePostRequest;
+import thebrightcompany.com.garage.api.changestateorder.ChangeStateCallAPI;
 import thebrightcompany.com.garage.fragment.note.NoteListAdapter;
 import thebrightcompany.com.garage.fragment.note.TroubleAdapter;
 import thebrightcompany.com.garage.fragment.note.model.NoteModel;
@@ -48,9 +57,9 @@ public class NoteDetailFragment extends Fragment {
     public TextView txtNumberTrouble;
     public ListView listView;
 
-    public ListView lstView;
-    public NoteListAdapter adapter;
-    public List<NoteModel> notes;
+    public LinearLayout lnrCall;
+    public LinearLayout lnrOk;
+    public LinearLayout lnrNot;
 
     @Nullable
     @Override
@@ -68,23 +77,35 @@ public class NoteDetailFragment extends Fragment {
         code = (TextView)getView().findViewById(R.id.txt_notice_car_number);
         carType = (TextView)getView().findViewById(R.id.txt_notice_car_type);
 
+        lnrCall = (LinearLayout)getView().findViewById(R.id.lnr_notification_call);
+        lnrOk = (LinearLayout)getView().findViewById(R.id.lnr_notification_accept);
+        lnrNot = (LinearLayout)getView().findViewById(R.id.lnr_notification_delete);
+
+
+        lnrCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                processCallCustomer(orderModel.phone);
+            }
+        });
+
+        lnrOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            changeState(1);
+            }
+        });
+
+        lnrNot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            changeState(-1);
+            }
+        });
+
+
         txtNumberTrouble = (TextView)getView().findViewById(R.id.txt_number_trouble);
         listView = (ListView)getView().findViewById(R.id.lst_trouble);
-//        txtCustomerName = (TextView)getView().findViewById(R.id.txt_notice_customer_name);
-
-//        lstView = (ListView) getView().findViewById(R.id.lst_note);
-//        notes = new ArrayList<>();
-//        adapter = new NoteListAdapter(getContext(), R.layout.item_notice_customer );
-//
-//        adapter.notes = this.notes;
-//        lstView.setAdapter(adapter);
-//
-//        lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                // go to detail
-//            }
-//        });
 
         loadNoteDetail();
     }
@@ -110,10 +131,6 @@ public class NoteDetailFragment extends Fragment {
                     JSONObject object = new JSONObject(response.get("data").toString());
 
                     orderModel = LoganSquare.parse(object.optString("order"),OrderModel.class);
-//                    notes = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
-//                    adapter.notes = notes;
-//                    adapter.notifyDataSetChanged();
-
                     String[] info = orderModel.customer_info.split("/n");
                     txtCustomerName.setText(info[0]);
                     txtCustomerTel.setText(orderModel.phone);
@@ -143,6 +160,67 @@ public class NoteDetailFragment extends Fragment {
 
     }
 
+    public void processCallCustomer(String phone) {
+        if (phone != null && phone.length() > 0) {
+            phone = phone.replaceAll("\\s+", "");
+
+            if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, CustomerFragment.REQUEST_PHONE_CALL);
+            } else {
+                Intent callSupport = new Intent(Intent.ACTION_CALL, Uri
+                        .parse("tel:" + phone));
+                startActivity(callSupport);
+            }
+        } else {
+            ((MainActivity) getContext()).showMessage("Garage này chưa cập nhật số điện thoại!");
+        }
+    }
+
+    public void changeState(final int status){
+
+        if (!Utils.isNetworkAvailable(getActivity())){
+            return;
+        } else {
+            OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    super.onErrorResponse(error);
+                }
+
+                @Override
+                public void onResponse(JsonObject response) {
+
+                    super.onResponse(response);
+
+                    if (status == 1){
+                        ((MainActivity)getActivity()).showMessage("Bạn đã chọn sửa chữa cho oto thành công");
+                        getFragmentManager().popBackStack();
+//                        homeActivity.updateToken(token);
+//                        btn_repair.setEnabled(false);
+//                        btn_repair.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
+                    }
+
+                    if (status == -1){
+                        ((MainActivity) getActivity()).showMessage("Bạn đã hủy sửa chữa cho oto này");
+                        getFragmentManager().popBackStack();
+//                        homeActivity.updateToken(token);
+//                        btn_cancel.setEnabled(false);
+//                        btn_cancel.setBackgroundColor(homeActivity.getColor(R.color.color_disable_edit_text));
+                    }
+
+                }
+            };
+
+            BasePostRequest request = new BasePostRequest( String.format(Constant.URL_UPDATE_STATE, orderModel.id),
+                    new TypeToken<JsonObject>(){}.getType(),listener);
+
+            request.setParam("state", String.valueOf(status));
+            request.setParam("token", Utils.APP_TOKEN);
+            App.addRequest(request, "orderDetail");
+
+        }
+    }
 
 
 }
