@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @JsonObject(fieldDetectionPolicy =JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class NoteModel implements Serializable {
-    public String id;
+    public int id;
     public String order_id;
     public String garage_id;
     public String type;
