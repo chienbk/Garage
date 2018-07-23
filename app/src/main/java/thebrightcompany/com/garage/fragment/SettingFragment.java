@@ -75,6 +75,8 @@ public class SettingFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
+                homeActivity.updateToken("");
+                homeActivity.finish();
             }
         });
 
