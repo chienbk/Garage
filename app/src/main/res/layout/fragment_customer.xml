@@ -37,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="5dp"
                     app:backgroundTint="@color/color_disable_edit_text"
                     app:srcCompat="@android:drawable/ic_menu_mylocation" />
 

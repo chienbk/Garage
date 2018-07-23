@@ -162,36 +162,6 @@ public class MainActivity extends AppCompatActivity implements BaseView{
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-
-//    public String encodeFileToBase64Binary(ImageView imageView) {
-//        Bitmap bmp =((BitmapDrawable)imageView.getDrawable()).getBitmap();
-//        ByteArrayOutputStream bos = null;
-//        byte[] bt = null;
-//        String encodeString = null;
-////        try {
-//            bos = new ByteArrayOutputStream();
-//            bmp.compress(Bitmap.CompressFormat.JPEG, 40, bos);
-//            bt = bos.toByteArray();
-//            encodeString = Base64.encodeToString(bt, Base64.DEFAULT);
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-//        return encodeString;
-//    }
-//
-//    public Bitmap decodeBase64AndSetImage(String completeImageData) {
-//
-//        // Incase you're storing into aws or other places where we have extension stored in the starting.
-//        String imageDataBytes = completeImageData.substring(completeImageData.indexOf(",") + 1);
-//
-//        InputStream stream = new ByteArrayInputStream(Base64.decode(imageDataBytes.getBytes(), Base64.DEFAULT));
-//
-//        Bitmap bitmap = BitmapFactory.decodeStream(stream);
-//
-//        return bitmap;
-//    }
-
-
     public void setTittle(String tittle){
         setTitle(tittle);
     }
@@ -252,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     @Override
     protected void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverFCM,
+                new IntentFilter(Constant.ACTION_RECEIVER_STATE));
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverLatLon,
                 new IntentFilter(Constant.GPS_FILTER));
 
@@ -267,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverLatLon);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverFCM);
         super.onPause();
     }
 
@@ -285,4 +258,13 @@ public class MainActivity extends AppCompatActivity implements BaseView{
         }
     }
 
+    private BroadcastReceiver broadcastReceiverFCM = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int idOfOrder = intent.getIntExtra("order_id", 0);
+            String type = intent.getStringExtra("type");
+            Log.d(TAG, "idOfOrder: " + idOfOrder);
+            Log.d(TAG, "type: " + type);
+        }
+    };
 }

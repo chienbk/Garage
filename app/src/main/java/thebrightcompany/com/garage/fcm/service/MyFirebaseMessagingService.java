@@ -16,6 +16,14 @@ import thebrightcompany.com.garage.fcm.app.Config;
 import thebrightcompany.com.garage.fcm.utils.NotificationUtils;
 import thebrightcompany.com.garage.view.MainActivity;
 
+/**
+ * 0: Mới
+ * 1:Đang sửa
+ * 2: Đã sửa xong
+ * 3: Đã bàn giao cho khách hàng
+ * -1: Đã hủy
+ */
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();

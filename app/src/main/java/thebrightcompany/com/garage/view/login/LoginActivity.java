@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
         if (!TextUtils.isEmpty(regId)){
             Utils.FCM_TOKEN = regId;
-            Log.d("Firebase Reg Id: ", " - " + regId);
+            Log.e(TAG, "Firebase reg id: " + regId);
         } else
             Log.d(TAG, "Firebase Reg Id is not received yet!");
     }

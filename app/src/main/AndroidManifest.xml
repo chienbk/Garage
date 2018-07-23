@@ -38,7 +38,14 @@
             android:name=".view.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppThemeNew" />
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_small_logo" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
         <!-- Firebase Notifications -->
         <service android:name=".fcm.service.MyFirebaseMessagingService">
             <intent-filter>

@@ -176,6 +176,7 @@ public class CreateOrderActivity extends AppCompatActivity implements CreateOrde
         @Override
         public void onResponse(SearchCustomerResponse response) {
             super.onResponse(response);
+            hideProgress();
             int status_code = response.getStatus_code();
             if (status_code == 0){
                 onSearchCustomerSuccess(response.getDataSearchCustomer().getToken(), response.getDataSearchCustomer().getCustomers());

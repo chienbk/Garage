@@ -38,4 +38,6 @@ public class Constant {
     public static final int GARAGE_STATE_FIXING = 1;
     public static final int GARAGE_STATE_FIXED = 2;
     public static final int GARAGE_STATE_CUSTOMER_RECEIVED = 3;
+
+    public static final String ACTION_RECEIVER_STATE = "ACTION_RECEVICE_STATE";
 }
