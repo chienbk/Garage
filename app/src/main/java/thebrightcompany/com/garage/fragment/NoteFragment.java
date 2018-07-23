@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -36,9 +37,15 @@ import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
 
 public class NoteFragment extends Fragment {
+    public final int limit = 20;
+
     public ListView lstView;
     public NoteListAdapter adapter;
     public List<NoteModel> notes;
+
+    public int previousLastPosition = 0;
+
+
 
     @Nullable
     @Override
@@ -64,11 +71,32 @@ public class NoteFragment extends Fragment {
                 ((MainActivity)getContext()).addFragment(noteDetailFragment);
             }
         });
+        lstView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                isScrollCompleted(i);
+            }
 
-        loadNote();
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            }
+        });
+
+
+
+
+        loadNote(0);
     }
 
-    public void loadNote(){
+
+    public void isScrollCompleted(int currentScrollState) {
+        if (currentScrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            loadNote(adapter.notes.size());
+
+        }
+    }
+
+    public void loadNote(int start){
         if (!Utils.isNetworkAvailable(getContext())){
 //            onNetWorkError(getString(R.string.str_msg_network_fail));
             return;
@@ -88,7 +116,8 @@ public class NoteFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(response.get("data").toString());
 
-                    notes = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
+                    List<NoteModel>noteModels = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
+                    notes.addAll(noteModels);
                     adapter.notes = notes;
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -100,8 +129,8 @@ public class NoteFragment extends Fragment {
             }
         };
         Map<String, String> mParams = new HashMap<>();
-        mParams.put("start","0");
-        mParams.put("limit","20");
+        mParams.put("start", String.valueOf(start));
+        mParams.put("limit", String.valueOf(limit));
         mParams.put("token",Utils.APP_TOKEN);
 
         BaseGetRequest request = new BaseGetRequest( Constant.URL_GET_LIST_NOTIFICATION, new TypeToken<JsonObject>(){}.getType(),listener, mParams);

@@ -62,7 +62,7 @@ import thebrightcompany.com.garage.view.addcustomer.CreateOrderActivity;
 public class CustomerFragment extends Fragment implements CustomerView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     public static final String TAG = CustomerFragment.class.getSimpleName();
-    private static final int REQUEST_PHONE_CALL = 101;
+    public static final int REQUEST_PHONE_CALL = 101;
 
     private MainActivity homeActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;

@@ -12,6 +12,8 @@ public class OrderModel implements Serializable{
     public String id;
     public String customer_id;
 
+    public String customer_name;
+
     public CustomerModel customer_data;
 
     public String garage_id;
