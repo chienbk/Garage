@@ -15,6 +15,7 @@ public class Constant {
     public static final String URL_UPDATE_TIME = ROOT_URL + "api/v1/gara/update-time-finish";
     public static final String URL_PAYMENT = ROOT_URL + "api/v1/gara/update-payment/{idOfOrder}";
     public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order/";
+    public static final String URL_ORDER_LIST = ROOT_URL + "api/v1/gara/orders";
     public static final String URL_PROFILE = ROOT_URL + "api/v1/gara/profile/{idOfUser}";
 
     /**
@@ -30,4 +31,11 @@ public class Constant {
     public static final String PREF_LAT = "PREF_LAT";
     public static final String PREF_LNG = "PREF_LNG";
     public static final String PREF_DEVICE_TOKEN = "PREF_DEVICE_TOKEN";
+
+
+    public static final int GARAGE_STATE_CANCEL = -1;
+    public static final int GARAGE_STATE_NEW = 0;
+    public static final int GARAGE_STATE_FIXING = 1;
+    public static final int GARAGE_STATE_FIXED = 2;
+    public static final int GARAGE_STATE_CUSTOMER_RECEIVED = 3;
 }
