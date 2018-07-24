@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -42,6 +43,7 @@ public class NoteFragment extends Fragment {
     public ListView lstView;
     public NoteListAdapter adapter;
     public List<NoteModel> notes;
+    public LinearLayout lnrNoData;
 
     public int previousLastPosition = 0;
 
@@ -83,6 +85,7 @@ public class NoteFragment extends Fragment {
         });
 
 
+        lnrNoData = (LinearLayout)getView().findViewById(R.id.lnr_not_data);
 
 
         loadNote(0);
@@ -118,6 +121,11 @@ public class NoteFragment extends Fragment {
 
                     List<NoteModel>noteModels = LoganSquare.parseList(object.optString("notifications"),NoteModel.class);
                     notes.addAll(noteModels);
+                    if(notes.size() == 0){
+                        lnrNoData.setVisibility(View.VISIBLE);
+                    }else {
+                        lnrNoData.setVisibility(View.GONE);
+                    }
                     adapter.notes = notes;
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {

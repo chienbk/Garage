@@ -4,9 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.menu.ListMenuItemView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.bluelinelabs.logansquare.LoganSquare;
@@ -17,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +40,13 @@ public class GarageFragment extends Fragment {
     public static int limit = 20;
     public int status = 1;
 
+    List<OrderModel> orderModelList = new ArrayList<>();
+
+    public LinearLayout lnrDangSua;
+    public LinearLayout lnrDaXong;
+    public LinearLayout lnrThongBao;
+    public ListView lstView;
+
     private MainActivity homeActivity;
 
     @Nullable
@@ -48,11 +59,36 @@ public class GarageFragment extends Fragment {
 
     private void initView(View view) {
         homeActivity.setTitle("Lịch sử khách hàng");
+
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        lnrDangSua = (LinearLayout) getView().findViewById(R.id.lnr_bt_dang_sua);
+        lnrDangSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setStatus(1);
+                orderModelList.clear();
+                loadListOrder(0);
+            }
+        });
+
+        lnrDaXong = (LinearLayout) getView().findViewById(R.id.lnr_bt_da_xong);
+        lnrDaXong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setStatus(2);
+                orderModelList.clear();
+                loadListOrder(0);
+            }
+        });
+
+        lnrThongBao = (LinearLayout)getView().findViewById(R.id.lnr_not_data);
+        setStatus(1);
         loadListOrder(0);
     }
 
@@ -90,10 +126,15 @@ public class GarageFragment extends Fragment {
 
                    String datakaka = object.opt("orders").toString();
                     List<OrderModel> orderModels = LoganSquare.parseList(datakaka, OrderModel.class);
-//                    notes.addAll(noteModels);
+                    orderModelList.addAll(orderModels);
+                    if(orderModelList.size() == 0){
+                        lnrThongBao.setVisibility(View.VISIBLE);
+                    }else {
+                        lnrThongBao.setVisibility(View.GONE);
+                    }
 //                    adapter.notes = notes;
 //                    adapter.notifyDataSetChanged();
-                    int size = orderModels.size();
+//                    int size = orderModels.size();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -111,6 +152,21 @@ public class GarageFragment extends Fragment {
         BaseGetRequest request = new BaseGetRequest( Constant.URL_ORDER_LIST, new TypeToken<JsonObject>(){}.getType(),listener, mParams);
         App.addRequest(request, Constant.URL_ORDER_LIST);
 
+    }
+
+    public void setStatus(int status){
+        this.status = status;
+        switch (status){
+            case 1:
+                lnrDangSua.setAlpha(1);
+                lnrDaXong.setAlpha(0.5f);
+                break;
+
+            default:
+                lnrDaXong.setAlpha(1);
+                lnrDangSua.setAlpha(0.5f);
+                break;
+        }
     }
 
 
