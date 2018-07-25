@@ -45,24 +45,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            Log.d(TAG, "fcm_Data Payload: " + remoteMessage.getData().toString());
 
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 handleDataMessage(json);
             } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
+                Log.d(TAG, "Exception: " + e.getMessage());
             }
         }
     }
 
     private void handleNotification(String message) {
+        Log.d(TAG, "fcm_message: " + message);
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message
             Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
@@ -72,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void handleDataMessage(JSONObject json) {
-        Log.e(TAG, "push json: " + json.toString());
+        Log.d(TAG, "fcm_push json: " + json.toString());
 
         try {
             JSONObject data = json.getJSONObject("data");

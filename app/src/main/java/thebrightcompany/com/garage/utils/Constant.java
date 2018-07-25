@@ -17,6 +17,7 @@ public class Constant {
     public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order/";
     public static final String URL_ORDER_LIST = ROOT_URL + "api/v1/gara/orders";
     public static final String URL_PROFILE = ROOT_URL + "api/v1/gara/profile/{idOfUser}";
+    public static final String URL_LOGOUT = ROOT_URL + "api/v1/gara/logout";
 
     /**
      * Defind key
