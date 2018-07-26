@@ -22,7 +22,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         // Saving reg id to shared preferences
         storeRegIdInPref(refreshedToken);
-        Log.d(TAG, "FCM token: " + refreshedToken);
+        Log.d(TAG, "fcm_token: " + refreshedToken);
 
         // sending reg id to your server
         sendRegistrationToServer(refreshedToken);
@@ -35,7 +35,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private void sendRegistrationToServer(final String token) {
         // sending gcm token to server
-        Log.e(TAG, "sendRegistrationToServer: " + token);
+        Log.d(TAG, "fcm_sendRegistrationToServer: " + token);
     }
 
     private void storeRegIdInPref(String token) {

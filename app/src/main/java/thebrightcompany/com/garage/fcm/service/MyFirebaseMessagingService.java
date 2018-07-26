@@ -12,6 +12,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import thebrightcompany.com.garage.api.logout.LogoutCallAPI;
 import thebrightcompany.com.garage.fcm.app.Config;
 import thebrightcompany.com.garage.fcm.utils.NotificationUtils;
 import thebrightcompany.com.garage.view.MainActivity;
@@ -32,14 +33,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG, "fcm_From: " + remoteMessage.getFrom());
 
         if (remoteMessage == null)
             return;
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "fcm_Notification Body: " + remoteMessage.getNotification().getBody());
             handleNotification(remoteMessage.getNotification().getBody());
         }
 
@@ -51,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 handleDataMessage(json);
             } catch (Exception e) {
-                Log.d(TAG, "Exception: " + e.getMessage());
+                Log.d(TAG, "fcm_Exception: " + e.getMessage());
             }
         }
     }
@@ -75,9 +76,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "fcm_push json: " + json.toString());
 
         try {
-            JSONObject data = json.getJSONObject("data");
-
-            String title = data.getString("title");
+            String type = json.getString("type");
+            Log.d(TAG, "fcm_type: " + type);
+            int order_id = json.getInt("order_id");
+            Log.d(TAG, "fcm_order_id: " + order_id);
+            String message = type + " - " + order_id;
+            Log.d(TAG, "fcm_message: " + message);
+            /*JSONObject data = json.getJSONObject("data");
+            Log.d(TAG, "fcm_push json: " + data);
+            String message = data.getString("message");
+            String title = data.getString("title");*/
+            /*String title = data.getString("title");
             String message = data.getString("message");
             boolean isBackground = data.getBoolean("is_background");
             String imageUrl = data.getString("image");
@@ -89,11 +98,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "isBackground: " + isBackground);
             Log.e(TAG, "payload: " + payload.toString());
             Log.e(TAG, "imageUrl: " + imageUrl);
-            Log.e(TAG, "timestamp: " + timestamp);
+            Log.e(TAG, "timestamp: " + timestamp);*/
 
 
             if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                 // app is in foreground, broadcast the push message
+                Log.d(TAG, "fcm_isNotAppIsInBackground");
                 Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
                 pushNotification.putExtra("message", message);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
@@ -103,21 +113,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationUtils.playNotificationSound();
             } else {
                 // app is in background, show the notification in notification tray
+                Log.d(TAG, "fcm_isAppIsInBackground");
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
                 resultIntent.putExtra("message", message);
 
                 // check for image attachment
-                if (TextUtils.isEmpty(imageUrl)) {
-                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
-                } else {
-                    // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
-                }
+                showNotificationMessage(getApplicationContext(), type, message, "27/07/2018", resultIntent);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Json Exception: " + e.getMessage());
+            Log.d(TAG, "fcm_Json Exception: " + e.getMessage());
         } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
+            Log.d(TAG, "fcm_Exception: " + e.getMessage());
         }
     }
 

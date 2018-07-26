@@ -261,10 +261,10 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     private BroadcastReceiver broadcastReceiverFCM = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int idOfOrder = intent.getIntExtra("order_id", 0);
-            String type = intent.getStringExtra("type");
-            Log.d(TAG, "idOfOrder: " + idOfOrder);
-            Log.d(TAG, "type: " + type);
+            intent = getIntent();
+            String message = intent.getStringExtra("message");
+            Log.d(TAG, "fcm_message: " + message);
+            showMessage("Push notification: " + message);
         }
     };
 }
