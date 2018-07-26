@@ -6,6 +6,7 @@
 
     <item
         android:id="@+id/create_order"
+        android:icon="@drawable/ic_done"
         android:title="Tạo đơn hàng"
         app:showAsAction="always" />
 </menu>
