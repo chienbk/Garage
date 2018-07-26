@@ -26,6 +26,6 @@ public class LoginRequest extends BasePostRequest<LoginResponse> {
         setParam("password", password);
     }
     public void setDeviceToken(String token){
-        setParam("token", token);
+        setParam("device_token", token);
     }
 }
