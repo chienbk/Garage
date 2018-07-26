@@ -76,8 +76,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:background="@color/color_tabbar"
+            android:background="@color/colorPrimary"
             android:gravity="bottom|fill"
             android:orientation="horizontal">
 
@@ -92,9 +91,10 @@
 
                 <ImageView
                     android:id="@+id/customer_img"
-                    android:layout_width="55dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_group_black_24dp" />
+                    android:padding="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_user" />
 
 
                 <TextView
@@ -102,10 +102,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User"
-                    android:textColor="#000000"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Dơn Hang" />
+                    tools:text="Đơn Hàng" />
             </LinearLayout>
 
             <LinearLayout
@@ -120,16 +120,17 @@
 
                 <ImageView
                     android:id="@+id/garage_img"
-                    android:layout_width="55dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_home_black_24dp" />
+                    android:padding="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_gara" />
 
                 <TextView
                     android:id="@+id/garage_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Garage"
-                    android:textColor="#000000"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Garage" />
@@ -146,16 +147,17 @@
 
                 <ImageView
                     android:id="@+id/note_image"
-                    android:layout_width="55dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_phone_in_talk_black_24dp"/>
+                    android:padding="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_notification"/>
 
                 <TextView
                     android:id="@+id/note_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thong Bao"
-                    android:textColor="#000000"
+                    android:text="Thông báo"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Thong bao" />
@@ -173,16 +175,17 @@
 
                 <ImageView
                     android:id="@+id/setting_image"
-                    android:layout_width="55dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_settings_black_24dp"/>
+                    android:padding="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_setting"/>
 
                 <TextView
                     android:id="@+id/setting_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
-                    android:textColor="#000000"
+                    android:text="Cài đặt"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="profile" />
