@@ -15,14 +15,20 @@ import com.android.volley.VolleyError;
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import thebrightcompany.com.garage.App;
@@ -39,6 +45,11 @@ public class GarageFragment extends Fragment {
 
     public static int limit = 20;
     public int status = 1;
+    private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
+
+    public Date					dateReminder;
+
+    public SwitchDateTimeDialogFragment dateTimeFragment;
 
     List<OrderModel> orderModelList = new ArrayList<>();
 
@@ -63,6 +74,7 @@ public class GarageFragment extends Fragment {
 
     }
 
+    //https://github.com/Kunzisoft/Android-SwitchDateTimePicker/blob/master/sample/src/main/java/com/kunzisoft/switchdatetimesample/Sample.java
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -81,12 +93,14 @@ public class GarageFragment extends Fragment {
         lnrDaXong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setStatus(2);
-                orderModelList.clear();
-                loadListOrder(0);
+//                setStatus(2);
+//                orderModelList.clear();
+//                loadListOrder(0);
+                showDateTimePicker();
             }
         });
 
+        createDateTimeDialog();
         lnrThongBao = (LinearLayout)getView().findViewById(R.id.lnr_not_data);
         setStatus(1);
         loadListOrder(0);
@@ -169,6 +183,61 @@ public class GarageFragment extends Fragment {
         }
     }
 
+
+    public void showDateTimePicker() {
+//		SwitchDateTimeDialogFragment dateTimeFragment = new SwitchDateTimeDialogFragment();
+//		dateTimeFragment.set24HoursMode(true);
+
+        if(this.dateReminder == null){
+            dateReminder = new Date();
+        }
+        dateTimeFragment.startAtCalendarView();
+        dateTimeFragment.setDefaultDateTime(this.dateReminder);
+        dateTimeFragment.show(getFragmentManager(), "TAG_DATETIME_FRAGMENT");
+    }
+
+
+    public void createDateTimeDialog(){
+        dateTimeFragment = (SwitchDateTimeDialogFragment) getFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT);
+        if(dateTimeFragment == null) {
+            dateTimeFragment = SwitchDateTimeDialogFragment.newInstance(
+                    getString(R.string.label_datetime_dialog),
+                    getString(android.R.string.ok),
+                    getString(android.R.string.cancel)
+            );
+        }
+
+        dateTimeFragment = new SwitchDateTimeDialogFragment();
+        // Init format
+        final SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", java.util.Locale.getDefault());
+        // Assign unmodifiable values
+        dateTimeFragment.set24HoursMode(false);
+        dateTimeFragment.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragment.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
+
+        // Define new day and month format
+        try {
+            dateTimeFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+//			Log.e(TAG, e.getMessage());
+        }
+
+        // Set listener for date
+        // Or use dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+        dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+//                .setText(myDateFormat.format(date));
+                dateReminder = date;
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+                // Do nothing
+            }
+
+        });
+    }
 
 
 }
