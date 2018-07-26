@@ -25,7 +25,7 @@
                 android:id="@+id/txt_dang_sua"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dang sua"
+                android:text="Đang sửa"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
@@ -45,7 +45,7 @@
                 android:id="@+id/txt_da_xong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Da xong"
+                android:text="Đã xong"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
