@@ -29,11 +29,23 @@ public class OrderModel implements Serializable{
     public String note;
     public String status;
 
+    public String time_finish;
+
     public List<TroubleModel> trouble_code;
 
     public int getNumberTrouble(){
         if(trouble_code == null) return 0;
         return trouble_code.size();
+    }
+
+    public String getTroubleListString(){
+        if(trouble_code == null || trouble_code.size() ==0) return "";
+        String result = "";
+        for(TroubleModel troubleModel : trouble_code){
+            result += troubleModel.Code + ", ";
+        }
+
+        return result.substring(0, result.length()-2);
     }
 
 

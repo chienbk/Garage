@@ -35,19 +35,21 @@ import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.base.BaseGetRequest;
+import thebrightcompany.com.garage.fragment.garage.GarageListAdapter;
 import thebrightcompany.com.garage.fragment.note.model.NoteModel;
 import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
 import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
 
-public class GarageFragment extends Fragment {
+public class GarageFragment extends Fragment implements GarageListAdapter.GaraListAdapterDelegate{
 
     public static int limit = 20;
     public int status = 1;
     private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
 
-    public Date					dateReminder;
+//    public Date					dateReminder;
+    public OrderModel  orderModelchoseTime;
 
     public SwitchDateTimeDialogFragment dateTimeFragment;
 
@@ -57,6 +59,8 @@ public class GarageFragment extends Fragment {
     public LinearLayout lnrDaXong;
     public LinearLayout lnrThongBao;
     public ListView lstView;
+
+    public GarageListAdapter adapter;
 
     private MainActivity homeActivity;
 
@@ -93,10 +97,10 @@ public class GarageFragment extends Fragment {
         lnrDaXong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                setStatus(2);
-//                orderModelList.clear();
-//                loadListOrder(0);
-                showDateTimePicker();
+                setStatus(2);
+                orderModelList.clear();
+                loadListOrder(0);
+//                showDateTimePicker();
             }
         });
 
@@ -104,6 +108,12 @@ public class GarageFragment extends Fragment {
         lnrThongBao = (LinearLayout)getView().findViewById(R.id.lnr_not_data);
         setStatus(1);
         loadListOrder(0);
+
+        lstView = (ListView)getView().findViewById(R.id.lst_garage);
+        adapter = new GarageListAdapter(getContext(), R.layout.item_garage_fixing);
+        adapter.notes = new ArrayList<>();
+        adapter.delegate = this;
+        lstView.setAdapter(adapter);
     }
 
     @Override
@@ -146,8 +156,8 @@ public class GarageFragment extends Fragment {
                     }else {
                         lnrThongBao.setVisibility(View.GONE);
                     }
-//                    adapter.notes = notes;
-//                    adapter.notifyDataSetChanged();
+                    adapter.notes = orderModels;
+                    adapter.notifyDataSetChanged();
 //                    int size = orderModels.size();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -188,11 +198,11 @@ public class GarageFragment extends Fragment {
 //		SwitchDateTimeDialogFragment dateTimeFragment = new SwitchDateTimeDialogFragment();
 //		dateTimeFragment.set24HoursMode(true);
 
-        if(this.dateReminder == null){
-            dateReminder = new Date();
-        }
+//        if(this.dateReminder == null){
+//            dateReminder = new Date();
+//        }
         dateTimeFragment.startAtCalendarView();
-        dateTimeFragment.setDefaultDateTime(this.dateReminder);
+        dateTimeFragment.setDefaultDateTime(new Date());
         dateTimeFragment.show(getFragmentManager(), "TAG_DATETIME_FRAGMENT");
     }
 
@@ -227,8 +237,9 @@ public class GarageFragment extends Fragment {
         dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-//                .setText(myDateFormat.format(date));
-                dateReminder = date;
+                orderModelchoseTime.time_finish = myDateFormat.format(date);
+                adapter.notifyDataSetChanged();
+//                dateReminder = date;
             }
 
             @Override
@@ -240,5 +251,20 @@ public class GarageFragment extends Fragment {
     }
 
 
+    @Override
+    public void choseTime(OrderModel order) {
+        this.orderModelchoseTime = order;
+        showDateTimePicker();
+    }
+
+    @Override
+    public void completeOrder(String orderId) {
+
+    }
+
+    @Override
+    public void callCustomer(String phoneNumer) {
+
+    }
 }
 
