@@ -15,12 +15,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
+import thebrightcompany.com.garage.api.base.BaseGetRequest;
 import thebrightcompany.com.garage.api.login.LoginCallAPI;
 import thebrightcompany.com.garage.api.logout.LogoutCallAPI;
+import thebrightcompany.com.garage.fragment.note.TroubleAdapter;
+import thebrightcompany.com.garage.fragment.setting.GarageModel;
 import thebrightcompany.com.garage.model.login.LoginResponse;
+import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
+import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.Utils;
 import thebrightcompany.com.garage.view.MainActivity;
 import thebrightcompany.com.garage.view.login.LoginActivity;
@@ -29,8 +45,9 @@ public class SettingFragment extends Fragment {
     public ImageView avartar;
     public TextView txtGarageTitle;
     public TextView txtLocal;
-    public TextView txtPhone1, txtPhone2;
-    public TextView txtDateCreated;
+    public TextView txtPhone1;
+    public TextView txtEmail;
+    public TextView txtDescription;
 
     private MainActivity homeActivity;
 
@@ -62,8 +79,8 @@ public class SettingFragment extends Fragment {
         txtGarageTitle = (TextView)getView().findViewById(R.id.txt_garage_name);
         txtLocal = (TextView)getView().findViewById(R.id.txt_local_setting);
         txtPhone1 = (TextView)getView().findViewById(R.id.txt_phone1);
-        txtPhone2 = (TextView)getView().findViewById(R.id.txt_phone2);
-        txtDateCreated = (TextView)getView().findViewById(R.id.txt_date_created);
+        txtEmail = (TextView)getView().findViewById(R.id.txt_email);
+        txtDescription = (TextView)getView().findViewById(R.id.txt_description);
 
         LinearLayout lnrLogout = (LinearLayout)getView().findViewById(R.id.lnr_logout);
         lnrLogout.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +89,8 @@ public class SettingFragment extends Fragment {
                 logout();
             }
         });
+
+        loadGarageDetail();
     }
 
     public void logout(){
@@ -128,6 +147,49 @@ public class SettingFragment extends Fragment {
         homeActivity.updateToken("");
         homeActivity.finish();
     }
+
+    public void loadGarageDetail(){
+        if (!Utils.isNetworkAvailable(getContext())){
+//            onNetWorkError(getString(R.string.str_msg_network_fail));
+            return;
+        }
+
+        OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+            }
+            @Override
+            public void onResponse(JsonObject response) {
+                super.onResponse(response);
+                try {
+                    JSONObject object = new JSONObject(response.get("data").toString());
+
+                    GarageModel garageModel = LoganSquare.parse(object.optString("garage"),GarageModel.class);
+
+                    if(garageModel != null) {
+                        txtGarageTitle.setText(garageModel.name);
+                        txtLocal.setText(garageModel.address);
+                        txtEmail.setText(garageModel.email);
+                        txtPhone1.setText(garageModel.getPhoneString());
+                        txtDescription.setText(garageModel.description);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Map<String, String> mParams = new HashMap<>();
+        mParams.put("token",Utils.APP_TOKEN);
+
+        BaseGetRequest request = new BaseGetRequest( Constant.URL_PROFILE, new TypeToken<JsonObject>(){}.getType(),listener, mParams);
+        App.addRequest(request, "garageDetail");
+
+    }
+
 
 
 }
