@@ -43,37 +43,47 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         viewHolder.txtCustomerName.setText(orderModel.customer_name);
         viewHolder.txtFordRangerCode.setText(orderModel.customer_info);
         viewHolder.txtTrouble.setText(orderModel.getTroubleListString());
-        if(orderModel.end_time.equals(Constant.endTimeDefault)){
 
-            viewHolder.txtChoseDate.setVisibility(View.VISIBLE);
-            viewHolder.txtChoseDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    delegate.choseTime(orderModel);
-                }
-            });
-            viewHolder.txtDateString.setVisibility(View.GONE);
-            viewHolder.lnrComplete.setVisibility(View.GONE);
+        if(orderModel.status.equals(Integer.toString(Constant.GARAGE_STATE_FIXED))){
+            viewHolder.lnrTotalMoney.setVisibility(View.VISIBLE);
+            viewHolder.txtMoney.setText("tienafafafaf");
+            viewHolder.lnrAction.setVisibility(View.GONE);
         }else {
-            viewHolder.txtDateString.setText(orderModel.end_time);
-            viewHolder.txtDateString.setVisibility(View.VISIBLE);
-            viewHolder.txtChoseDate.setVisibility(View.GONE);
-            viewHolder.lnrComplete.setVisibility(View.VISIBLE);
-            viewHolder.lnrComplete.setOnClickListener(new View.OnClickListener() {
+            viewHolder.lnrAction.setVisibility(View.VISIBLE);
+
+            viewHolder.lnrTotalMoney.setVisibility(View.GONE);
+            if (orderModel.end_time.equals(Constant.endTimeDefault)) {
+
+                viewHolder.txtChoseDate.setVisibility(View.VISIBLE);
+                viewHolder.txtChoseDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        delegate.choseTime(orderModel);
+                    }
+                });
+                viewHolder.txtDateString.setVisibility(View.GONE);
+                viewHolder.lnrComplete.setVisibility(View.GONE);
+            } else {
+                viewHolder.txtDateString.setText(orderModel.end_time);
+                viewHolder.txtDateString.setVisibility(View.VISIBLE);
+                viewHolder.txtChoseDate.setVisibility(View.GONE);
+                viewHolder.lnrComplete.setVisibility(View.VISIBLE);
+                viewHolder.lnrComplete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        delegate.completeOrder(orderModel);
+                    }
+                });
+
+            }
+
+            viewHolder.lnrCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    delegate.completeOrder(orderModel);
+                    delegate.callCustomer(orderModel.phone);
                 }
             });
-
         }
-
-        viewHolder.lnrCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                delegate.callCustomer(orderModel.phone);
-            }
-        });
         return convertView;
     }
 
@@ -87,6 +97,10 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         TextView txtDateString;
         LinearLayout lnrComplete;
 
+        LinearLayout lnrTotalMoney;
+        LinearLayout lnrAction;
+        TextView txtMoney;
+
         public ViewHolder(View view){
             txtGarageCode = (TextView) view.findViewById(R.id.txt_id_garage);
             txtCustomerName = (TextView) view.findViewById(R.id.txt_customer_name);
@@ -96,6 +110,10 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
             txtDateString = (TextView) view.findViewById(R.id.txt_date);
             lnrCall = (LinearLayout) view.findViewById(R.id.lnr_call);
             lnrComplete = (LinearLayout) view.findViewById(R.id.lnr_complete);
+
+            txtMoney = (TextView) view.findViewById(R.id.txt_total_money);
+            lnrTotalMoney = (LinearLayout) view.findViewById(R.id.lnr_total_money);
+            lnrAction = (LinearLayout) view.findViewById(R.id.lnr_action);
         }
 
     }
