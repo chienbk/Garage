@@ -12,7 +12,7 @@ public class Constant {
     public static final String URL_CREATE_ORDER = ROOT_URL + "api/v1/gara/add_order";
     public static final String URL_GET_CUSTOMER = ROOT_URL + "api/v1/gara/get-customers/{idOfGara}/{state}";
     public static final String URL_GET_LIST_NOTIFICATION = ROOT_URL + "api/v1/gara/notifications";
-    public static final String URL_UPDATE_TIME = ROOT_URL + "api/v1/gara/update-time-finish";
+    public static final String URL_UPDATE_TIME = ROOT_URL + "api/v1/gara/order/%s/update_time";
     public static final String URL_PAYMENT = ROOT_URL + "api/v1/gara/update-payment/{idOfOrder}";
     public static final String URL_ORDER_DETAIL = ROOT_URL + "api/v1/gara/order/";
     public static final String URL_ORDER_LIST = ROOT_URL + "api/v1/gara/orders";
@@ -41,4 +41,6 @@ public class Constant {
     public static final int GARAGE_STATE_CUSTOMER_RECEIVED = 3;
 
     public static final String ACTION_RECEIVER_STATE = "ACTION_RECEVICE_STATE";
+
+    public static final String endTimeDefault= "0000-00-00 00:00:00";
 }

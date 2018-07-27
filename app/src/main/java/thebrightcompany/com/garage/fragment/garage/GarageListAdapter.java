@@ -13,12 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import thebrightcompany.com.garage.R;
-import thebrightcompany.com.garage.fragment.note.model.NoteModel;
 import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
+import thebrightcompany.com.garage.utils.Constant;
 
 public class GarageListAdapter extends ArrayAdapter<OrderModel>{
 
-    public List<OrderModel> notes;
+    public List<OrderModel> orderModels;
     public GaraListAdapterDelegate delegate;
     public GarageListAdapter(@NonNull Context context, int resource) {
         super(context, resource);
@@ -36,33 +36,33 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final OrderModel note = getItem(position);
-//        viewHolder.txtTitle.setText(note.type);
-//        viewHolder.txtContent.setText(note.content);
-        viewHolder.txtGarageCode.setText(note.code);
-        viewHolder.txtCustomerName.setText(note.customer_name);
-        viewHolder.txtFordRangerCode.setText(note.customer_info);
-        viewHolder.txtTrouble.setText(note.getTroubleListString());
-        if(note.time_finish == null || note.time_finish.length()==0){
+        final OrderModel orderModel = getItem(position);
+//        viewHolder.txtTitle.setText(orderModel.type);
+//        viewHolder.txtContent.setText(orderModel.content);
+        viewHolder.txtGarageCode.setText(orderModel.code);
+        viewHolder.txtCustomerName.setText(orderModel.customer_name);
+        viewHolder.txtFordRangerCode.setText(orderModel.customer_info);
+        viewHolder.txtTrouble.setText(orderModel.getTroubleListString());
+        if(orderModel.end_time.equals(Constant.endTimeDefault)){
 
             viewHolder.txtChoseDate.setVisibility(View.VISIBLE);
             viewHolder.txtChoseDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    delegate.choseTime(note);
+                    delegate.choseTime(orderModel);
                 }
             });
             viewHolder.txtDateString.setVisibility(View.GONE);
             viewHolder.lnrComplete.setVisibility(View.GONE);
         }else {
-            viewHolder.txtDateString.setText(note.time_finish);
+            viewHolder.txtDateString.setText(orderModel.end_time);
             viewHolder.txtDateString.setVisibility(View.VISIBLE);
             viewHolder.txtChoseDate.setVisibility(View.GONE);
             viewHolder.lnrComplete.setVisibility(View.VISIBLE);
             viewHolder.lnrComplete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    delegate.completeOrder(note.id);
+                    delegate.completeOrder(orderModel);
                 }
             });
 
@@ -71,7 +71,7 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         viewHolder.lnrCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                delegate.callCustomer(note.phone);
+                delegate.callCustomer(orderModel.phone);
             }
         });
         return convertView;
@@ -102,18 +102,18 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
 
     @Override
     public int getCount() {
-        return this.notes.size();
+        return this.orderModels.size();
     }
 
     @Nullable
     @Override
     public OrderModel getItem(int position) {
-        return this.notes.get(position);
+        return this.orderModels.get(position);
     }
 
     public interface GaraListAdapterDelegate{
         public void choseTime(OrderModel order);
-        public void completeOrder(String orderId);
+        public void completeOrder(OrderModel order);
         public void callCustomer(String phoneNumer);
     }
 }

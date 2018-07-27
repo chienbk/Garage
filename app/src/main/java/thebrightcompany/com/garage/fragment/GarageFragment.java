@@ -1,10 +1,15 @@
 package thebrightcompany.com.garage.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.menu.ListMenuItemView;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +40,8 @@ import thebrightcompany.com.garage.App;
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.api.OnResponseListener;
 import thebrightcompany.com.garage.api.base.BaseGetRequest;
+import thebrightcompany.com.garage.api.base.BasePostRequest;
 import thebrightcompany.com.garage.fragment.garage.GarageListAdapter;
-import thebrightcompany.com.garage.fragment.note.model.NoteModel;
 import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
 import thebrightcompany.com.garage.utils.Constant;
 import thebrightcompany.com.garage.utils.Utils;
@@ -111,7 +116,7 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
 
         lstView = (ListView)getView().findViewById(R.id.lst_garage);
         adapter = new GarageListAdapter(getContext(), R.layout.item_garage_fixing);
-        adapter.notes = new ArrayList<>();
+        adapter.orderModels = new ArrayList<>();
         adapter.delegate = this;
         lstView.setAdapter(adapter);
     }
@@ -156,7 +161,7 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
                     }else {
                         lnrThongBao.setVisibility(View.GONE);
                     }
-                    adapter.notes = orderModels;
+                    adapter.orderModels = orderModels;
                     adapter.notifyDataSetChanged();
 //                    int size = orderModels.size();
                 } catch (JSONException e) {
@@ -195,12 +200,6 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
 
 
     public void showDateTimePicker() {
-//		SwitchDateTimeDialogFragment dateTimeFragment = new SwitchDateTimeDialogFragment();
-//		dateTimeFragment.set24HoursMode(true);
-
-//        if(this.dateReminder == null){
-//            dateReminder = new Date();
-//        }
         dateTimeFragment.startAtCalendarView();
         dateTimeFragment.setDefaultDateTime(new Date());
         dateTimeFragment.show(getFragmentManager(), "TAG_DATETIME_FRAGMENT");
@@ -219,7 +218,7 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
 
         dateTimeFragment = new SwitchDateTimeDialogFragment();
         // Init format
-        final SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", java.util.Locale.getDefault());
+        final SimpleDateFormat myDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy", java.util.Locale.getDefault());
         // Assign unmodifiable values
         dateTimeFragment.set24HoursMode(false);
         dateTimeFragment.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
@@ -237,8 +236,9 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
         dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                orderModelchoseTime.time_finish = myDateFormat.format(date);
-                adapter.notifyDataSetChanged();
+                updateTime(orderModelchoseTime, myDateFormat.format(date));
+//                orderModelchoseTime.time_finish = myDateFormat.format(date);
+//                adapter.notifyDataSetChanged();
 //                dateReminder = date;
             }
 
@@ -258,13 +258,95 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
     }
 
     @Override
-    public void completeOrder(String orderId) {
-
+    public void completeOrder(OrderModel order) {
+        complete(order);
     }
 
     @Override
     public void callCustomer(String phoneNumer) {
-
+        processCallCustomer(phoneNumer);
     }
+
+    public void processCallCustomer(String phone) {
+        if (phone != null && phone.length() > 0) {
+            phone = phone.replaceAll("\\s+", "");
+
+            if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, CustomerFragment.REQUEST_PHONE_CALL);
+            } else {
+                Intent callSupport = new Intent(Intent.ACTION_CALL, Uri
+                        .parse("tel:" + phone));
+                startActivity(callSupport);
+            }
+        } else {
+            ((MainActivity) getContext()).showMessage("Garage này chưa cập nhật số điện thoại!");
+        }
+    }
+
+    public void complete(final OrderModel order){
+
+        if (!Utils.isNetworkAvailable(getActivity())){
+            return;
+        } else {
+            OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    super.onErrorResponse(error);
+                }
+
+                @Override
+                public void onResponse(JsonObject response) {
+
+                    super.onResponse(response);
+                     ((MainActivity)getActivity()).showMessage("Bạn đã hoàn thành công việc này");
+                    adapter.orderModels.remove(order);
+                    adapter.notifyDataSetChanged();
+                }
+            };
+
+            BasePostRequest request = new BasePostRequest( String.format(Constant.URL_UPDATE_STATE, order.id),
+                    new TypeToken<JsonObject>(){}.getType(),listener);
+
+            request.setParam("state", String.valueOf(Constant.GARAGE_STATE_FIXED));
+            request.setParam("token", Utils.APP_TOKEN);
+            App.addRequest(request, "CompleteOrder");
+
+        }
+    }
+
+
+    public void updateTime(final OrderModel order, final String time){
+
+        if (!Utils.isNetworkAvailable(getActivity())){
+            return;
+        } else {
+            OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    super.onErrorResponse(error);
+                }
+
+                @Override
+                public void onResponse(JsonObject response) {
+
+                    super.onResponse(response);
+                    ((MainActivity)getActivity()).showMessage("update thành công!");
+                    orderModelchoseTime.end_time = time;
+                    adapter.notifyDataSetChanged();
+                }
+            };
+
+            BasePostRequest request = new BasePostRequest( String.format(Constant.URL_UPDATE_TIME, order.id),
+                    new TypeToken<JsonObject>(){}.getType(),listener);
+
+            request.setParam("time_finish", time);
+            request.setParam("token", Utils.APP_TOKEN);
+            App.addRequest(request, "updatetime");
+
+        }
+    }
+
 }
 

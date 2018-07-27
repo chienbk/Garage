@@ -9,6 +9,8 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
 @JsonObject(fieldDetectionPolicy =JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS)
 public class OrderModel implements Serializable{
 
+
+
     public String id;
     public String customer_id;
 
@@ -29,7 +31,6 @@ public class OrderModel implements Serializable{
     public String note;
     public String status;
 
-    public String time_finish;
 
     public List<TroubleModel> trouble_code;
 
