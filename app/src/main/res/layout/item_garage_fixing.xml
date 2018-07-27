@@ -20,14 +20,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đơn hàng: "
-                android:textSize="10dp"/>
+                android:textSize="12dp"/>
 
             <TextView
                 android:id="@+id/txt_id_garage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HH20"
-                android:textSize="10dp"/>
+                android:textSize="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -40,14 +40,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tổng phí: "
-                android:textSize="10dp" />
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/txt_total_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="10dp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
 
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nguyễn Đức Việt"
-            android:textSize="10dp"/>
+            android:textSize="12dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -67,14 +67,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ford Ranger - "
-                android:textSize="10dp"/>
+                android:textSize="12dp"/>
 
             <TextView
                 android:id="@+id/txt_ford_ranger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="28B..."
-                android:textSize="10dp"/>
+                android:textSize="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="P2989,P123"
-                android:textSize="10dp"
+                android:textSize="12dp"
 
                 />
         </LinearLayout>
@@ -97,12 +97,12 @@
 
     <LinearLayout
         android:id="@+id/lnr_action"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+
         android:gravity="end"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="12dp">
 
         <LinearLayout
             android:id="@+id/lnr_call"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="Gọi Điện"
                 android:textColor="@android:color/white"
-                android:textSize="10dp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,7 +135,7 @@
                 android:padding="3dp"
                 android:text="Đặt hẹn"
                 android:textColor="@android:color/white"
-                android:textSize="10dp" />
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/txt_date"
@@ -146,7 +146,7 @@
                 android:maxLines="2"
                 android:padding="3dp"
                 android:text="đ"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hoàn Thành"
                 android:textColor="@android:color/white"
-                android:textSize="10dp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
     </LinearLayout>
