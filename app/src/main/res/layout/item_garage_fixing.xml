@@ -59,8 +59,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            android:padding="1dp"
+            android:background="@drawable/lnr_garage_border_red_white"
             android:gravity="center"
             android:layout_marginTop="5dp">
 
@@ -70,8 +69,8 @@
                 android:layout_height="wrap_content"
                 android:text="P2989,P123"
                 android:textSize="10dp"
-                android:background="@android:color/white"
-                android:padding="1dp"/>
+
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -88,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/lnr_garage_border"
             android:padding="3dp">
 
             <TextView
@@ -102,8 +101,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
-            android:padding="1dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
 
             <TextView
                 android:id="@+id/txt_dat_hen"
@@ -112,17 +112,18 @@
                 android:text="Đặt hẹn"
                 android:textColor="@android:color/white"
                 android:textSize="10dp"
-                android:padding="3dp"/>
+                android:padding="3dp"
+                android:background="@drawable/lnr_garage_border"/>
 
             <TextView
                 android:id="@+id/txt_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:background="@android:color/white"
                 android:text="đ"
                 android:textSize="10dp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:background="@drawable/lnr_garage_border_blue_white"/>
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/lnr_garage_border"
             android:padding="3dp"
             android:visibility="invisible">
 
