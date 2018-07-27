@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -115,11 +116,37 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
         loadListOrder(0);
 
         lstView = (ListView)getView().findViewById(R.id.lst_garage);
+        lstView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                isScrollCompleted(i);
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            }
+        });
+
+
+
+
+
+
+
         adapter = new GarageListAdapter(getContext(), R.layout.item_garage_fixing);
+
         adapter.orderModels = new ArrayList<>();
         adapter.delegate = this;
         lstView.setAdapter(adapter);
     }
+
+    public void isScrollCompleted(int currentScrollState) {
+        if (currentScrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            loadListOrder(adapter.orderModels.size());
+
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -161,7 +188,7 @@ public class GarageFragment extends Fragment implements GarageListAdapter.GaraLi
                     }else {
                         lnrThongBao.setVisibility(View.GONE);
                     }
-                    adapter.orderModels = orderModels;
+                    adapter.orderModels = orderModelList;
                     adapter.notifyDataSetChanged();
 //                    int size = orderModels.size();
                 } catch (JSONException e) {
