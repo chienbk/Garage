@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import thebrightcompany.com.garage.model.notificationfragment.OrderModel;
 import thebrightcompany.com.garage.utils.Constant;
 
 public class GarageListAdapter extends ArrayAdapter<OrderModel>{
+
+    private static final String TAG = GarageListAdapter.class.getSimpleName();
 
     public List<OrderModel> orderModels;
     public GaraListAdapterDelegate delegate;
@@ -37,16 +40,16 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final OrderModel orderModel = getItem(position);
-//        viewHolder.txtTitle.setText(orderModel.type);
-//        viewHolder.txtContent.setText(orderModel.content);
         viewHolder.txtGarageCode.setText(orderModel.code);
         viewHolder.txtCustomerName.setText(orderModel.customer_name);
-        viewHolder.txtFordRangerCode.setText(orderModel.customer_info);
+        String description =  orderModel.customer_info;
+        description = description.replaceAll("/n", " \n");
+        viewHolder.txtFordRangerCode.setText(description);
         viewHolder.txtTrouble.setText(orderModel.getTroubleListString());
 
         if(orderModel.status.equals(Integer.toString(Constant.GARAGE_STATE_FIXED))){
             viewHolder.lnrTotalMoney.setVisibility(View.VISIBLE);
-            viewHolder.txtMoney.setText("tienafafafaf");
+            viewHolder.txtMoney.setText("100.000 VNĐ");
             viewHolder.lnrAction.setVisibility(View.GONE);
         }else {
             viewHolder.lnrAction.setVisibility(View.VISIBLE);
