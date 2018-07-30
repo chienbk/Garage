@@ -28,4 +28,7 @@ public class LoginRequest extends BasePostRequest<LoginResponse> {
     public void setDeviceToken(String token){
         setParam("device_token", token);
     }
+    public void setPlatform(String platform){
+        setParam("platform", platform);
+    }
 }

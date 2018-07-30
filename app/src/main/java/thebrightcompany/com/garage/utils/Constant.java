@@ -23,6 +23,7 @@ public class Constant {
      * Defind key
      */
 
+    public static final String PLATFORM_ANDROID = "2";
     public static final String TOKEN = "TOKEN_APP";
     public static final String REF_EMAIL = "EMAIL_LOGIN";
     public static final String REF_PASSWORD = "PASS_LOGIN";
