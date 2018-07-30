@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingBottom="5dp"
     android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:padding="10dp">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,14 +22,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đơn hàng: "
-                android:textSize="12dp"/>
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/txt_id_garage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HH20"
-                android:textSize="12dp"/>
+                android:text=""
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
 
         <LinearLayout
@@ -41,14 +44,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tổng phí: "
-                android:textSize="12dp" />
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/txt_total_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="12dp" />
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
 
@@ -56,8 +61,9 @@
             android:id="@+id/txt_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nguyễn Đức Việt"
-            android:textSize="12dp"/>
+            android:text=""
+            android:textSize="@dimen/txt_item_history"
+            android:textColor="@android:color/black"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,14 +75,16 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
                 android:text=""
-                android:textSize="12dp"/>
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/txt_ford_ranger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="28B..."
-                android:textSize="12dp"/>
+                android:text=""
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
 
         <LinearLayout
@@ -90,10 +98,9 @@
                 android:id="@+id/txt_trouble_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="P2989,P123"
-                android:textSize="12dp"
-
-                />
+                android:text=""
+                android:textSize="@dimen/txt_item_history"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -101,10 +108,9 @@
         android:id="@+id/lnr_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:gravity="end"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="5dp">
 
         <LinearLayout
             android:id="@+id/lnr_call"
@@ -119,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:text="Gọi Điện"
                 android:textColor="@android:color/white"
-                android:textSize="12dp" />
+                android:textSize="18dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -127,7 +133,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp">
-
 
             <TextView
                 android:id="@+id/txt_dat_hen"
@@ -137,7 +142,7 @@
                 android:padding="3dp"
                 android:text="Đặt hẹn"
                 android:textColor="@android:color/white"
-                android:textSize="12dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/txt_date"
@@ -147,8 +152,8 @@
                 android:gravity="end"
                 android:maxLines="2"
                 android:padding="3dp"
-                android:text="đ"
-                android:textSize="12dp"
+                android:text=""
+                android:textSize="18dp"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -166,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hoàn Thành"
                 android:textColor="@android:color/white"
-                android:textSize="12dp" />
+                android:textSize="18dp" />
         </LinearLayout>
 
     </LinearLayout>

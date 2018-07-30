@@ -29,6 +29,7 @@ import thebrightcompany.com.garage.fragment.CustomerFragment;
 import thebrightcompany.com.garage.fragment.GarageFragment;
 import thebrightcompany.com.garage.fragment.NoteFragment;
 import thebrightcompany.com.garage.fragment.SettingFragment;
+import thebrightcompany.com.garage.fragment.history.HistoryFragment;
 import thebrightcompany.com.garage.service.GPSTracker;
 import thebrightcompany.com.garage.utils.AlertDialogUtils;
 import thebrightcompany.com.garage.utils.Constant;
@@ -71,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements BaseView{
         lnrGarage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new GarageFragment());
+                //addFragment(new GarageFragment());
+                addFragment(new HistoryFragment());
                 updateTabbar(1);
 
             }
