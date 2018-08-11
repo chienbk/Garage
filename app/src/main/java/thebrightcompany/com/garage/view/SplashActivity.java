@@ -3,9 +3,14 @@ package thebrightcompany.com.garage.view;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import thebrightcompany.com.garage.R;
 import thebrightcompany.com.garage.view.login.LoginActivity;
@@ -15,6 +20,8 @@ public class SplashActivity extends AppCompatActivity {
     public static final String TAG = SplashActivity.class.getSimpleName();
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
+    private String type;
+    private int orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,14 @@ public class SplashActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
         setContentView(R.layout.activity_splash);
+
+
+        final Bundle b = getIntent().getExtras();
+        if (b != null) {
+            orderId = b.getInt("order_id");
+            type = b.getString("type");
+            Log.d(TAG, "fcm_notification: " + orderId + " - " + type);
+        }
 
         new Handler().postDelayed(new Runnable() {
 
@@ -39,6 +54,11 @@ public class SplashActivity extends AppCompatActivity {
                 //Intent i = new Intent(SplashActivity.this, LoginScreenActivity.class);
                 //startActivity(i);
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                if (b != null) {
+                    intent.putExtra("orderId", orderId + "");
+                    intent.putExtra("type", type);
+                    Log.d(TAG, "fcm_notification: " + orderId + " - " + type);
+                }
                 startActivity(intent);
                 // close this activity
                 finish();

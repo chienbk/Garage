@@ -41,11 +41,11 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
-        initView(view);
+        initView();
         return view;
     }
 
-    private void initView(View view) {
+    private void initView() {
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
         homeActivity.setTitle("Lịch sử sửa chữa");
@@ -53,7 +53,7 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onResume() {
-        homeActivity.setTitle("Lịch sử sửa chữa");
+        //initView();
         super.onResume();
     }
 
@@ -61,7 +61,7 @@ public class HistoryFragment extends Fragment {
      * The method use to setup viewpager
      */
     private void setupViewPager() {
-        adapter = new GarageTabPagerAdapter(homeActivity.getSupportFragmentManager());
+        adapter = new GarageTabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new PrepareHistoryFragment(), "Đang Sửa");
         adapter.addFragment(new FinsishedHistoryFragment(), "Đã Xong");
         viewPager.setAdapter(adapter);

@@ -273,6 +273,7 @@ public class PrepareHistoryFragment extends Fragment implements GarageListAdapte
 
     public void loadListOrder(int start){
         if (!Utils.isNetworkAvailable(getContext())){
+            homeActivity.showMessage(getString(R.string.str_msg_network_fail));
             return;
         }
         homeActivity.showProgress();
@@ -316,14 +317,19 @@ public class PrepareHistoryFragment extends Fragment implements GarageListAdapte
                 }
             }
         };
+
         Map<String, String> mParams = new HashMap<>();
         mParams.put("start", String.valueOf(start));
         mParams.put("limit", String.valueOf(limit));
         mParams.put("status",String.valueOf(status));
         mParams.put("token",Utils.APP_TOKEN);
-
         BaseGetRequest request = new BaseGetRequest( Constant.URL_ORDER_LIST, new TypeToken<JsonObject>(){}.getType(),listener, mParams);
         App.addRequest(request, Constant.URL_ORDER_LIST);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

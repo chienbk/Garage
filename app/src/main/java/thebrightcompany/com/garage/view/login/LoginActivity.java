@@ -59,23 +59,35 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String email, password;
+    private String orderId = null, type = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        initGoogleFirebase();
         initView();
 
         sharedPreferencesUtils = new SharedPreferencesUtils(this);
         String deviceToken = sharedPreferencesUtils.readStringPreference(Constant.PREF_DEVICE_TOKEN, "");
+        Intent intent = getIntent();
+        if (intent != null) {
+            orderId = intent.getStringExtra("orderId");
+            type = intent.getStringExtra("type");
+            Log.d(TAG, "fcm_notification: " + orderId + " - " + type);
+        }
         if (!TextUtils.isEmpty(deviceToken)){
             Utils.APP_TOKEN = deviceToken;
             Log.d(TAG, "device token: " + Utils.APP_TOKEN);
-            startActivity(new Intent(this, MainActivity.class));
+            Intent i = new Intent(this, MainActivity.class);
+            if (orderId != null) {
+                i.putExtra("orderId", orderId);
+                Log.d(TAG, "fcm_notification: " + orderId + " - " + type);
+            }
+            startActivity(i);
             finish();
         }
+        initGoogleFirebase();
     }
 
     /**

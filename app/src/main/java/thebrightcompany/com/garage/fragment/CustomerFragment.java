@@ -232,8 +232,8 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
             phone = order.getPhone();
             txt_orderId.setText(order.getId() + "");
             txt_nameOfCustomer.setText(order.getCustomer_name() + "");
-            txt_typeOfCar.setText("Honda Civic");
-            txt_licenceOfCar.setText("34E1 - 132.09");
+            txt_typeOfCar.setText("");
+            txt_licenceOfCar.setText("");
             String troubleCode = "";
             if (order.getTroubleCodes() != null){
                 for (int i = 0; i < order.getTroubleCodes().size(); i++){
@@ -516,7 +516,7 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
         /*Intent intent = new Intent();
         intent.putExtra("idOfGarage", mOrder.getOrder_id());
         startActivity(intent);*/
-        showMessage("Redirect to order detail!");
+        //showMessage("Redirect to order detail!");
     }
 }
 

@@ -18,8 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     Toolbar toolbar;
     private Dialog dlGPS;
     private SharedPreferencesUtils sharedPreferencesUtils;
+    private String mOrderId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements BaseView{
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        if (intent != null) {
+            mOrderId = intent.getStringExtra("orderId");
+            Log.d(TAG, "fcm_notification: " + mOrderId);
+            if (mOrderId != null){
+                showDialog("ID đơn hàng: " + mOrderId, "Bạn vui lòng vào màn hình đơn hàng để xem chi tiết đơn hàng!");
+            }
+        }
         setSupportActionBar(toolbar);
         lnrCustomer = (LinearLayout) findViewById(R.id.customer_lnr);
         lnrCustomer.setOnClickListener(new View.OnClickListener() {
@@ -263,10 +274,37 @@ public class MainActivity extends AppCompatActivity implements BaseView{
     private BroadcastReceiver broadcastReceiverFCM = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            intent = getIntent();
-            String message = intent.getStringExtra("message");
+
+            String message = intent.getStringExtra("data");
+            String tittle = intent.getStringExtra("tittle");
+            String body = intent.getStringExtra("body");
             Log.d(TAG, "fcm_message: " + message);
-            showMessage("Push notification: " + message);
+
+            showDialog(tittle, body);
         }
     };
+
+    private void showDialog(String orderId, String orderDetail) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.custom_dialog_bidding_success);
+
+        TextView txt_orderId = (TextView) dialog.findViewById(R.id.txt_orderId);
+        TextView txt_detail = (TextView) dialog.findViewById(R.id.txt_detail);
+        Button btn_sm = (Button) dialog.findViewById(R.id.btn_ok);
+
+        txt_orderId.setText(orderId);
+        txt_detail.setText("Chi tiết đơn hàng: \n" + orderDetail);
+        btn_sm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFragment(new CustomerFragment());
+                dialog.dismiss();
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 }

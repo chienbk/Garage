@@ -270,15 +270,17 @@ public class FinsishedHistoryFragment extends Fragment implements GarageListAdap
     }
 
     public void loadListOrder(int start){
+        homeActivity.showProgress();
         if (!Utils.isNetworkAvailable(getContext())){
+            homeActivity.hideProgress();
+            homeActivity.showMessage(getString(R.string.str_msg_network_fail));
             return;
         }
 
-        homeActivity.showProgress();
         OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                homeActivity.hideProgress();
                 super.onErrorResponse(error);
             }
 
@@ -319,5 +321,10 @@ public class FinsishedHistoryFragment extends Fragment implements GarageListAdap
         BaseGetRequest request = new BaseGetRequest( Constant.URL_ORDER_LIST, new TypeToken<JsonObject>(){}.getType(),listener, mParams);
         App.addRequest(request, Constant.URL_ORDER_LIST);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

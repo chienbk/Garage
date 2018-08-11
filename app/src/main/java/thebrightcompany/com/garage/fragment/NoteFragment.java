@@ -1,5 +1,6 @@
 package thebrightcompany.com.garage.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,8 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +43,7 @@ public class NoteFragment extends Fragment {
     public NoteListAdapter adapter;
     public List<NoteModel> notes;
     public LinearLayout lnrNoData;
-
+    private MainActivity homeActivity;
     public int previousLastPosition = 0;
 
 
@@ -68,9 +67,9 @@ public class NoteFragment extends Fragment {
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NoteDetailFragment noteDetailFragment = new NoteDetailFragment();
+                /*NoteDetailFragment noteDetailFragment = new NoteDetailFragment();
                 noteDetailFragment.noteId = adapter.notes.get(i).order_id;
-                ((MainActivity)getContext()).addFragment(noteDetailFragment);
+                ((MainActivity)getContext()).addFragment(noteDetailFragment);*/
             }
         });
         lstView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -91,6 +90,11 @@ public class NoteFragment extends Fragment {
         loadNote(0);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.homeActivity = (MainActivity) context;
+    }
 
     public void isScrollCompleted(int currentScrollState) {
         if (currentScrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
@@ -100,21 +104,23 @@ public class NoteFragment extends Fragment {
     }
 
     public void loadNote(int start){
+        homeActivity.showProgress();
         if (!Utils.isNetworkAvailable(getContext())){
-//            onNetWorkError(getString(R.string.str_msg_network_fail));
+            homeActivity.showMessage(getString(R.string.str_msg_network_fail));
+            homeActivity.hideProgress();
             return;
         }
 
         OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                homeActivity.hideProgress();
                 super.onErrorResponse(error);
             }
 
             @Override
             public void onResponse(JsonObject response) {
-
+                homeActivity.hideProgress();
                 super.onResponse(response);
                 try {
                     JSONObject object = new JSONObject(response.get("data").toString());
