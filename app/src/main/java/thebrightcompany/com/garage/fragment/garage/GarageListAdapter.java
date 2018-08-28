@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,11 +46,16 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         String description =  orderModel.customer_info;
         description = description.replaceAll("/n", " \n");
         viewHolder.txtFordRangerCode.setText(description);
-        viewHolder.txtTrouble.setText(orderModel.getTroubleListString());
+        if (TextUtils.isEmpty(orderModel.getTroubleListString())) {
+            viewHolder.layout_trouble_code.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.layout_trouble_code.setVisibility(View.VISIBLE);
+            viewHolder.txtTrouble.setText(orderModel.getTroubleListString());
+        }
 
         if(orderModel.status.equals(Integer.toString(Constant.GARAGE_STATE_FIXED))){
             viewHolder.lnrTotalMoney.setVisibility(View.VISIBLE);
-            viewHolder.txtMoney.setText("100.000 VNĐ");
+            viewHolder.txtMoney.setText("VNĐ");
             viewHolder.lnrAction.setVisibility(View.GONE);
         }else {
             viewHolder.lnrAction.setVisibility(View.VISIBLE);
@@ -103,6 +109,7 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
         LinearLayout lnrTotalMoney;
         LinearLayout lnrAction;
         TextView txtMoney;
+        LinearLayout layout_trouble_code;
 
         public ViewHolder(View view){
             txtGarageCode = (TextView) view.findViewById(R.id.txt_id_garage);
@@ -117,6 +124,7 @@ public class GarageListAdapter extends ArrayAdapter<OrderModel>{
             txtMoney = (TextView) view.findViewById(R.id.txt_total_money);
             lnrTotalMoney = (LinearLayout) view.findViewById(R.id.lnr_total_money);
             lnrAction = (LinearLayout) view.findViewById(R.id.lnr_action);
+            layout_trouble_code = (LinearLayout) view.findViewById(R.id.layout_trouble_code);
         }
 
     }

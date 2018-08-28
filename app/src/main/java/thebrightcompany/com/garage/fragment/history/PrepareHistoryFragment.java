@@ -249,7 +249,7 @@ public class PrepareHistoryFragment extends Fragment implements GarageListAdapte
                 public void onResponse(JsonObject response) {
 
                     super.onResponse(response);
-                    ((MainActivity)getActivity()).showMessage("update thành công!");
+                    ((MainActivity)getActivity()).showMessage("Đặt lịch thành công!");
                     orderModelchoseTime.end_time = time;
                     adapter.notifyDataSetChanged();
                 }

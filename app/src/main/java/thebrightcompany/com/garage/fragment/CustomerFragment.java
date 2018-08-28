@@ -109,7 +109,10 @@ public class CustomerFragment extends Fragment implements CustomerView, OnMapRea
      */
     private void initView(View view) {
         setHasOptionsMenu(true);
-        homeActivity.showDialogAskEnableGPS();
+        if (!Utils.IS_SHOW_GPS) {
+            homeActivity.showDialogAskEnableGPS();
+        }
+        Utils.IS_SHOW_GPS = true;
         homeActivity.setTitle("Đơn hàng mới");
         sharedPreferencesUtils = new SharedPreferencesUtils(homeActivity);
         idOfGarage = sharedPreferencesUtils.readIntegerPreference(Constant.GARAGE_ID, 0);

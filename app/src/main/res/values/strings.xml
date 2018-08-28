@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Garage</string>
+    <string name="app_name">KGarage</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="lb_welcome">CHÀO MỪNG BẠN ĐẾN VỚI K-GARAGE</string>
     <string name="prompt_email">Email/Phone</string>

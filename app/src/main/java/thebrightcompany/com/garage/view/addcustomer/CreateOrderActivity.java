@@ -86,7 +86,7 @@ public class CreateOrderActivity extends AppCompatActivity implements CreateOrde
     private SearchCustomerAdapter adapter;
     private String key = "";
     private Customer mCustomer;
-    private String idOfCuatomer = null;
+    private String idOfCuatomer = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +170,7 @@ public class CreateOrderActivity extends AppCompatActivity implements CreateOrde
         @Override
         public void onErrorResponse(VolleyError error) {
             super.onErrorResponse(error);
+            hideProgress();
             onSearchCustomerError("Đã có lỗi xảy ra, vui lòng thử lại.");
         }
 
@@ -439,6 +440,7 @@ public class CreateOrderActivity extends AppCompatActivity implements CreateOrde
             onNetWorkError(getString(R.string.str_msg_network_fail));
             return;
         }else {
+            showProgress();
             processAddNewOrder(idOfCuatomer, name, phone, email, typeOfCar, licenseOfCar, address, troubleCode);
         }
     }
@@ -472,17 +474,20 @@ public class CreateOrderActivity extends AppCompatActivity implements CreateOrde
     private class AddCustomerListener extends OnResponseListener<AddOrderResponse>{
         @Override
         public void onErrorResponse(VolleyError error) {
-            super.onErrorResponse(error);
             showMessage("Đã có lỗi xảy ra, vui lòng thử lại.");
+            hideProgress();
+            Log.d(TAG, "Error: " + error.toString());
+            super.onErrorResponse(error);
         }
 
         @Override
         public void onResponse(AddOrderResponse response) {
             super.onResponse(response);
+            hideProgress();
             int status_code = response.getStatus_code();
 
             if (status_code == 0){
-                onAddOrderSuccess("Tạo đơn hàng thành công");
+                onAddOrderSuccess("Tạo đơn hàng thành công!");
             } else {
                 onAddOrderError(status_code, response.getMessage());
             }

@@ -97,13 +97,13 @@ public class SettingFragment extends Fragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.str_confirm_logout));
         builder.setCancelable(false);
-        builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 processLogout(Utils.APP_TOKEN, Utils.FCM_TOKEN);
             }
         });
 
-        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
@@ -151,16 +151,21 @@ public class SettingFragment extends Fragment {
     public void loadGarageDetail(){
         if (!Utils.isNetworkAvailable(getContext())){
 //            onNetWorkError(getString(R.string.str_msg_network_fail));
+            homeActivity.showMessage(getString(R.string.str_msg_network_fail));
             return;
         }
 
+        homeActivity.showProgress();
         OnResponseListener<JsonObject> listener = new OnResponseListener<JsonObject>(){
             @Override
             public void onErrorResponse(VolleyError error) {
+                homeActivity.showMessage("Đã có lỗi xảy ra!");
+                homeActivity.hideProgress();
                 super.onErrorResponse(error);
             }
             @Override
             public void onResponse(JsonObject response) {
+                homeActivity.hideProgress();
                 super.onResponse(response);
                 try {
                     JSONObject object = new JSONObject(response.get("data").toString());

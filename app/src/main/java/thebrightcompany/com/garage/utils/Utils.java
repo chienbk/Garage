@@ -20,6 +20,7 @@ public class Utils {
 
     public static String APP_TOKEN = "";
     public static String FCM_TOKEN = "";
+    public static boolean IS_SHOW_GPS = false;
 
     //Email Validation pattern
     public static final String regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
