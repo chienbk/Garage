@@ -25,7 +25,6 @@ public class TroubleAdapter extends ArrayAdapter<TroubleModel> {
         super(context, resource);
         this.notes = new ArrayList<>();
         this.notes.addAll(troubleModels);
-        this.notes.addAll(troubleModels);
 
     }
 
